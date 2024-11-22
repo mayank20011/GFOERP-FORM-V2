@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useRef } from "react";
 import axios from "axios";
+import styles from "./ClientComponent.module.css";
 
 function ClientComponent() {
   const clientNameInput = useRef(null);
@@ -75,12 +76,12 @@ function ClientComponent() {
         {openList ? (
           <div className=" z-10 absolute w-full">
             {/* for clientNames */}
-            <div className="bg-gray-200 grid gap-2 mt-2 h-auto max-h-64 overflow-auto py-2">
+            <div className={`bg-white grid gap-2 mt-2 h-auto max-h-64 overflow-auto py-2 ${styles.scroller}`}>
               {clientNames
                 ? clientNames.map((name, index) => (
                     <div
                       key={index}
-                      className="px-3 py-1 border-2 mx-2 cursor-pointer bg-orange-600 rounded-md font-bold text-white h-fit"
+                      className="px-3 py-1 border-2 mx-0 cursor-pointer bg-green-600 rounded-md font-bold text-white h-fit"
                       onClick={clientNameClick}
                     >
                       {name}

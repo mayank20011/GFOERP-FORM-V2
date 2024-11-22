@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       backgroundImage:{
-        'custom-image':"url('./src/assets/formBackground.jpg')"
+        'custom-image':"url('./src/img/grass.jpg')"
       }
     },
   },
