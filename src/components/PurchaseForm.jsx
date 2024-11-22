@@ -1,5 +1,5 @@
 import React from "react";
-import ClientComponent from "./clientComponent";
+import ClientComponent from "./ClientComponent";
 function PurchaseForm() {
   return (
     <form className="gap-6 flex flex-col">
@@ -70,15 +70,13 @@ function PurchaseForm() {
         </div>
 
         {/*For Adulteration */}
-        <div>
+        <div classNAme="grid">
           <label htmlFor="adulteration" className="text-blue-600">Adulteration
           </label>
-          <input
-            type="text"
-            placeholder="Enter Quantity in Liters"
-            className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400"
-            name="quantity"
-          />
+          <select className="border-2 rounded-sm h-10 outline-none w-full cursor-pointer text-gray-400" name="adulteration">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
         </div>
 
         {/* Timestamp  */}
@@ -94,15 +92,13 @@ function PurchaseForm() {
         </div>
 
         {/* what to do ? */}
-        <div>
-          <label htmlFor="quantity" className="text-blue-600">What To Do?
+        <div className="grid">
+          <label htmlFor="whatToDo" className="text-blue-600">Adulteration
           </label>
-          <input
-            type="text"
-            placeholder="Enter Quantity in Liters"
-            className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400"
-            name="quantity"
-          />
+          <select className="border-2 rounded-sm h-10 outline-none w-full cursor-pointer text-gray-400" name="whatToDo">
+            <option value="Accept">Accept</option>
+            <option value="Reject">Reject</option>
+          </select>
         </div>
 
       </div>
