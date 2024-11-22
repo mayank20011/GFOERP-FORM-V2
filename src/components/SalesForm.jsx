@@ -2,9 +2,10 @@ import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
 import LoadingForm from "./LoadingForm";
+import ClientComponent from "./ClientComponent";
 
 function SalesForm() {
-  console.log(`Rendered`);
+  // console.log(`Rendered`);
   const [products, setProducts] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -13,7 +14,7 @@ function SalesForm() {
     axios
       .get("https://gfoerp-mern-api.vercel.app/Products/")
       .then((response) => {
-        console.log(response.data.data);
+        // console.log(response.data.data);
         setProducts(response.data.data);
         setLoading(false);
       })
@@ -30,7 +31,7 @@ function SalesForm() {
   return (
     <form className="gap-6 flex flex-col">
       {/* for client Name */}
-      <div></div>
+      <div><ClientComponent/></div>
 
       {/* for date of order and dispatch time */}
       <h1 className="text-3xl font-bold text-orange-600 self-baseline">

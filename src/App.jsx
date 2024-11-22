@@ -30,7 +30,7 @@ function App() {
       style={{ filter: "blur(0px)" }}
     >
       {/* This div will contain button and forms */}
-      <div className="w-4/5 bg-white opacity-90 grid gap-4 my-12 p-6 md:w-1/2 md:space-y-12 md:p-14">
+      <div className="w-4/5 bg-white opacity-90 grid gap-4 my-12 p-6 md:w-1/2 md:space-y-6 md:p-14">
         {/* Buttons for navigation */}
         <ul className="flex justify-center space-x-5">
           <li
