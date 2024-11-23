@@ -2,12 +2,12 @@ import React from "react";
 import ClientComponent from "./ClientComponent";
 function PurchaseForm() {
   return (
-    <form className="gap-6 flex flex-col">
+    <form className="gap-6 flex flex-col w-100">
       {/* for client Name */}
       <div><ClientComponent/></div>
 
       {/* for Product Details */}
-      <div className="grid grid-cols-2 gap-6 w-full">
+      <div className="grid grid-cols-1 gap-6 w-full sm:grid-cols-2">
 
         {/*For Quantity*/}
         <div>

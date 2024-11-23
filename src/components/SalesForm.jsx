@@ -3,11 +3,13 @@ import React from "react";
 import { useEffect, useState } from "react";
 import LoadingForm from "./LoadingForm";
 import ClientComponent from "./ClientComponent";
+import Alertmessage from "./Alertmessage.jsx";
 
 function SalesForm() {
   // console.log(`Rendered`);
   const [products, setProducts] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [alertt, setAlert] = useState(false);
 
   // To Fetch Product Name from the server
   useEffect(() => {
@@ -20,7 +22,7 @@ function SalesForm() {
       })
       .catch((err) => {
         console.log(err);
-        alert(`Server Problem`);
+        setAlert(true);
       });
   }, []);
 
@@ -29,16 +31,19 @@ function SalesForm() {
   }
 
   return (
-    <form className="gap-6 flex flex-col">
+    <form className="gap-6 flex flex-col w-100">
+      {alertt ? <Alertmessage message={"Something went wrong"} successorfailure={"failure"}/>: null}
       {/* for client Name */}
-      <div><ClientComponent/></div>
+      <div>
+        <ClientComponent />
+      </div>
 
       {/* for date of order and dispatch time */}
-      <h1 className="text-3xl font-bold text-orange-600 self-baseline">
+      <h1 className="text-xl sm:text-3xl font-bold text-orange-600 self-baseline">
         Order And Dispatch
       </h1>
 
-      <div className="grid grid-cols-2 gap-6 w-full">
+      <div className="grid grid-cols-1 gap-6 w-full sm:grid-cols-2">
         <div>
           <label htmlFor="dateOfOrder" className="text-blue-600">
             Date of Order
@@ -64,12 +69,12 @@ function SalesForm() {
       </div>
 
       {/* heading */}
-      <h1 className="text-3xl font-bold text-orange-600 self-baseline">
+      <h1 className="text-xl sm:text-3xl font-bold text-orange-600 self-baseline">
         Quantity
       </h1>
 
       {/* for quantity */}
-      <div className="grid grid-cols-2 gap-6 w-full">
+      <div className="grid grid-cols-1 gap-6 w-full sm:grid-cols-2">
         {products.map((product) => (
           <div key={product._id}>
             <label

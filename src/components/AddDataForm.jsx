@@ -2,8 +2,8 @@ import React from "react";
 
 function AddDataForm() {
   return (
-    <div className="grid gap-6 w-full">
-      <h1 className="text-3xl font-bold text-orange-600 self-baseline">
+    <div className="grid gap-6 w-100">
+      <h1 className="text-xl sm:text-3xl font-bold text-orange-600 self-baseline">
         Add New Client !
       </h1>
       {/* For Client Name */}
@@ -19,20 +19,38 @@ function AddDataForm() {
             name="dateOfOrder"
           />
         </div>
-        <button className="w-fit md:w-1/5
-        bg-orange-600 text-white font-bold self-end px-3 h-10 rounded-lg hover:scale-95 transition duration-300">Add Client</button>
+        <button
+          className="w-fit md:w-1/5
+        bg-orange-600 text-white font-bold px-3 h-10 rounded-lg hover:scale-95 transition duration-300"
+        >
+          Add Client
+        </button>
       </div>
 
       {/* For adding Product */}
-      <h1 className="text-3xl font-bold text-orange-600 self-baseline">
+      <h1 className="text-xl sm:text-3xl font-bold text-orange-600 self-baseline">
         Add New Product !
       </h1>
 
-      <div className="flex gap-2">
-        <input type="text" placeholder="Enter Product Name ..." className="border-2 rounded-sm h-10 p-3 outline-none w-2/5 cursor-pointer text-gray-400"/>
-        <input type="text" placeholder="Enter Product Quantity ..." className="border-2 rounded-sm h-10 p-3 outline-none w-2/5 cursor-pointer text-gray-400"/>
-        <button className="bg-orange-600 text-white font-bold self-end px-3 h-10 rounded-lg hover:scale-95 transition duration-300 w-1/5">Add Product</button>
+      <div className="grid space-y-3">
+        <div className="flex flex-col sm:flex-row gap-2">
+          <input
+            type="text"
+            placeholder="Enter Product Name ..."
+            className="w-100 border-2 rounded-sm h-10 p-3 outline-none sm:w-1/2 cursor-pointer text-gray-400"
+          />
+          <input
+            type="text"
+            placeholder="Enter Product Quantity ..."
+            className="w-100 border-2 rounded-sm h-10 p-3 outline-none sm:w-1/2 cursor-pointer text-gray-400"
+          />
+        </div>
+        <button className="bg-orange-600 text-white font-bold px-3 h-10 rounded-lg hover:scale-95 transition duration-300 w-fit">
+          Add Product
+        </button>
       </div>
+
+      {/* <img src={drinkingAnimation} className="h-48 justify-self-end" style={{"mixBlendMode":"colorBurn"}}/> */}
     </div>
   );
 }

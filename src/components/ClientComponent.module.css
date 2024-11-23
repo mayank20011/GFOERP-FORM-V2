@@ -1,5 +1,9 @@
+/* *{
+  border:1px solid black;
+} */
 .scroller
 {
   scrollbar-width: thin;
   scrollbar-color:blue white;
+  
 }
