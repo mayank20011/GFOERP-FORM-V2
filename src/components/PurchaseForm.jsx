@@ -29,6 +29,8 @@ function PurchaseForm() {
     const reqUrl =
       "https://gfoerp-mern-api.vercel.app/Purchase/";
 
+
+    // For sending data to db
     axios
       .post(reqUrl, data)
       .then((response) => {
@@ -44,6 +46,22 @@ function PurchaseForm() {
         console.error("Request failed:", error.response || error.message);
         alert(`Failure:${error}`);
       });
+
+    //  For sending data to spreadsheet
+    fetch('https://sheetdb.io/api/v1/mddu54uskl6xa', {
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          data: [
+              data
+          ]
+      })
+  })
+    .then((response) => response.json())
+    .then((data) => console.log(data));
   
   }
   return (

@@ -6,15 +6,12 @@ import ClientComponent from "./ClientComponent";
 import Alertmessage from "./Alertmessage.jsx";
 
 function SalesForm() {
-
-  const refArray= useRef([]);
+  const refArray = useRef([]);
   // function to clear form values only after data saved in db
-  function clearForm()
-  {
-    refArray.current.forEach((element)=>{
-      element.value="";
+  function clearForm() {
+    refArray.current.forEach((element) => {
+      element.value = "";
     });
-    
   }
 
   // console.log(`Rendered`);
@@ -27,9 +24,10 @@ function SalesForm() {
     e.preventDefault();
     const formData = new FormData(e.target);
     let data = {};
+    let spreadSheatData={};
     let quantity = {};
     formData.forEach((value, key) => {
-      console.log(`${key} : ${value}`);
+      spreadSheatData[key]=value;
       if (
         key == "dateOfDispatchAndTime" ||
         key == "dateOfOrder" ||
@@ -41,9 +39,29 @@ function SalesForm() {
       }
     });
     data[`Quantity`] = quantity;
+
     // console.log(data);
     const reqUrl = "https://gfoerp-mern-api.vercel.app/Sales/";
 
+
+    // To send data to spread sheet
+    fetch('https://sheetdb.io/api/v1/tgvavtf2ryd7v', {
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          data: [
+            spreadSheatData,
+          ]
+      })
+  })
+    .then((response) => response.json())
+    .then((data) => console.log(data));
+  
+
+    // To send data to mongodb
     axios
       .post(reqUrl, data)
       .then((response) => {
@@ -102,7 +120,7 @@ function SalesForm() {
             placeholder="Enter Date of Order"
             className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400"
             name="dateOfOrder"
-            ref={el => refArray.current[16]= el}
+            ref={(el) => (refArray.current[16] = el)}
           />
         </div>
         <div>
@@ -114,7 +132,7 @@ function SalesForm() {
             placeholder="Enter Date of Order"
             className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400"
             name="dateOfDispatchAndTime"
-            ref={el => refArray.current[17]= el}
+            ref={(el) => (refArray.current[17] = el)}
           />
         </div>
       </div>
@@ -136,10 +154,8 @@ function SalesForm() {
               type="text"
               placeholder="Enter Quantity ..."
               className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer"
-              name={`${product.productName} (${product.quantity})`
-              }
-              ref={el => refArray.current[index]=el
-            }
+              name={`${product.productName} (${product.quantity})`}
+              ref={(el) => (refArray.current[index] = el)}
             />
           </div>
         ))}
