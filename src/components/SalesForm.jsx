@@ -1,11 +1,22 @@
 import axios from "axios";
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import LoadingForm from "./LoadingForm";
 import ClientComponent from "./ClientComponent";
 import Alertmessage from "./Alertmessage.jsx";
 
 function SalesForm() {
+
+  const refArray= useRef([]);
+  // function to clear form values only after data saved in db
+  function clearForm()
+  {
+    refArray.current.forEach((element)=>{
+      element.value="";
+    });
+    
+  }
+
   // console.log(`Rendered`);
   const [products, setProducts] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -40,6 +51,7 @@ function SalesForm() {
           // If the status code is in the success range (200-299), the request was successful
           console.log("Request successful:", response.data);
           alert(`Data Saved Successfully in db`);
+          clearForm();
         }
       })
       .catch((error) => {
@@ -90,6 +102,7 @@ function SalesForm() {
             placeholder="Enter Date of Order"
             className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400"
             name="dateOfOrder"
+            ref={el => refArray.current[16]= el}
           />
         </div>
         <div>
@@ -101,6 +114,7 @@ function SalesForm() {
             placeholder="Enter Date of Order"
             className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400"
             name="dateOfDispatchAndTime"
+            ref={el => refArray.current[17]= el}
           />
         </div>
       </div>
@@ -112,7 +126,7 @@ function SalesForm() {
 
       {/* for quantity */}
       <div className="grid grid-cols-1 gap-6 w-full sm:grid-cols-2">
-        {products.map((product) => (
+        {products.map((product, index) => (
           <div key={product._id}>
             <label
               htmlFor={`${product.productName} (${product.quantity})`}
@@ -122,7 +136,10 @@ function SalesForm() {
               type="text"
               placeholder="Enter Quantity ..."
               className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer"
-              name={`${product.productName} (${product.quantity})`}
+              name={`${product.productName} (${product.quantity})`
+              }
+              ref={el => refArray.current[index]=el
+            }
             />
           </div>
         ))}
