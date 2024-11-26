@@ -1,8 +1,19 @@
 import React from "react";
 import ClientComponent from "./ClientComponent";
 import axios from "axios";
+import { useRef } from "react";
 
 function PurchaseForm() {
+
+  const refArray= useRef([]);
+  // function to clear form values only after data saved in db
+  function clearForm()
+  {
+    refArray.current.forEach((element)=>{
+      element.value="";
+    });
+    
+  }
 
   function handleSubmit(e)
   {
@@ -25,6 +36,7 @@ function PurchaseForm() {
           // If the status code is in the success range (200-299), the request was successful
           console.log("Request successful:", response.data);
           alert(`Data Saved Successfully in db`);
+          clearForm();
         }
       })
       .catch((error) => {
@@ -50,6 +62,7 @@ function PurchaseForm() {
             placeholder="Enter Quantity in Liters"
             className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400"
             name="quantity"
+            ref={ (el)=>refArray.current[0]=el }
           />
         </div>
 
@@ -62,6 +75,7 @@ function PurchaseForm() {
             placeholder="Enter Fat %"
             className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400"
             name="fat"
+            ref={ (el)=>refArray.current[1]=el }
           />
         </div>
 
@@ -74,6 +88,7 @@ function PurchaseForm() {
             placeholder="Enter CLR Value"
             className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400"
             name="clr"
+            ref={ (el)=>refArray.current[2]=el }
           />
         </div>
 
@@ -86,6 +101,7 @@ function PurchaseForm() {
             placeholder="Enter alchol %"
             className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400"
             name="alchol"
+            ref={ (el)=>refArray.current[3]=el }
           />
         </div>
 
@@ -98,6 +114,7 @@ function PurchaseForm() {
             placeholder="Enter Acidity of Milk"
             className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400"
             name="acidity"
+            ref={ (el)=>refArray.current[4]=el }
           />
         </div>
 
@@ -105,7 +122,8 @@ function PurchaseForm() {
         <div className="grid">
           <label htmlFor="adulteration" className="text-blue-600">Adulteration
           </label>
-          <select className="border-2 rounded-sm h-10 outline-none w-full cursor-pointer text-gray-400" name="adulteration">
+          <select className="border-2 rounded-sm h-10 outline-none w-full cursor-pointer text-gray-400" name="adulteration"
+          ref={ (el)=>refArray.current[5]=el }>
             <option value="Yes">Yes</option>
             <option value="No">No</option>
           </select>
@@ -120,6 +138,7 @@ function PurchaseForm() {
             placeholder="Enter Timestamp"
             className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400"
             name="timeStamp"
+            ref={ (el)=>refArray.current[6]=el }
           />
         </div>
 
@@ -127,7 +146,7 @@ function PurchaseForm() {
         <div className="grid">
           <label htmlFor="whatToDo" className="text-blue-600">What To Do?
           </label>
-          <select className="border-2 rounded-sm h-10 outline-none w-full cursor-pointer text-gray-400" name="whatToDo">
+          <select className="border-2 rounded-sm h-10 outline-none w-full cursor-pointer text-gray-400" name="whatToDo" ref={ (el)=>refArray.current[7]=el }>
             <option value="Accept">Accept</option>
             <option value="Reject">Reject</option>
           </select>
