@@ -1,11 +1,43 @@
 import React from "react";
 import ClientComponent from "./ClientComponent";
+import axios from "axios";
+
 function PurchaseForm() {
+
+  function handleSubmit(e)
+  {
+    // console.log(e.target);
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+
+    console.log(data);
+    const reqUrl =
+      "https://gfoerp-mern-api.vercel.app/Purchase/";
+
+    axios
+      .post(reqUrl, data)
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          // If the status code is in the success range (200-299), the request was successful
+          console.log("Request successful:", response.data);
+          alert(`Data Saved Successfully in db`);
+        }
+      })
+      .catch((error) => {
+        // Handle errors (non-2xx status codes or network errors)
+        console.error("Request failed:", error.response || error.message);
+        alert(`Failure:${error}`);
+      });
+  
+  }
   return (
-    <form className="gap-6 flex flex-col w-100">
+    <form className="gap-6 flex flex-col w-100" onSubmit={handleSubmit}>
       {/* for client Name */}
       <div><ClientComponent/></div>
-
       {/* for Product Details */}
       <div className="grid grid-cols-1 gap-6 w-full sm:grid-cols-2">
 
@@ -70,7 +102,7 @@ function PurchaseForm() {
         </div>
 
         {/*For Adulteration */}
-        <div classNAme="grid">
+        <div className="grid">
           <label htmlFor="adulteration" className="text-blue-600">Adulteration
           </label>
           <select className="border-2 rounded-sm h-10 outline-none w-full cursor-pointer text-gray-400" name="adulteration">
@@ -81,19 +113,19 @@ function PurchaseForm() {
 
         {/* Timestamp  */}
         <div>
-          <label htmlFor="quantity" className="text-blue-600">TimeStamp
+          <label htmlFor="timeStamp" className="text-blue-600">TimeStamp
           </label>
           <input
             type="date"
             placeholder="Enter Timestamp"
             className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400"
-            name="quantity"
+            name="timeStamp"
           />
         </div>
 
         {/* what to do ? */}
         <div className="grid">
-          <label htmlFor="whatToDo" className="text-blue-600">Adulteration
+          <label htmlFor="whatToDo" className="text-blue-600">What To Do?
           </label>
           <select className="border-2 rounded-sm h-10 outline-none w-full cursor-pointer text-gray-400" name="whatToDo">
             <option value="Accept">Accept</option>

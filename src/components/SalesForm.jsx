@@ -11,6 +11,44 @@ function SalesForm() {
   const [loading, setLoading] = useState(true);
   const [alertt, setAlert] = useState(false);
 
+  // To send data to database
+  function handleSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    let data = {};
+    let quantity = {};
+    formData.forEach((value, key) => {
+      console.log(`${key} : ${value}`);
+      if (
+        key == "dateOfDispatchAndTime" ||
+        key == "dateOfOrder" ||
+        key == "clientName"
+      ) {
+        data[key] = value;
+      } else {
+        quantity[key] = value;
+      }
+    });
+    data[`Quantity`] = quantity;
+    // console.log(data);
+    const reqUrl = "https://gfoerp-mern-api.vercel.app/Sales/";
+
+    axios
+      .post(reqUrl, data)
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          // If the status code is in the success range (200-299), the request was successful
+          console.log("Request successful:", response.data);
+          alert(`Data Saved Successfully in db`);
+        }
+      })
+      .catch((error) => {
+        // Handle errors (non-2xx status codes or network errors)
+        console.error("Request failed:", error.response || error.message);
+        alert(`Failure:${error}`);
+      });
+  }
+
   // To Fetch Product Name from the server
   useEffect(() => {
     axios
@@ -31,8 +69,7 @@ function SalesForm() {
   }
 
   return (
-    <form className="gap-6 flex flex-col w-100">
-      {alertt ? <Alertmessage message={"Something went wrong"} successorfailure={"failure"}/>: null}
+    <form className="gap-6 flex flex-col w-100" onSubmit={handleSubmit}>
       {/* for client Name */}
       <div>
         <ClientComponent />
@@ -78,14 +115,14 @@ function SalesForm() {
         {products.map((product) => (
           <div key={product._id}>
             <label
-              htmlFor={product.productName}
+              htmlFor={`${product.productName} (${product.quantity})`}
               className="text-blue-600"
             >{`${product.productName} (${product.quantity})`}</label>
             <input
               type="text"
               placeholder="Enter Quantity ..."
               className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer"
-              name={product.productName}
+              name={`${product.productName} (${product.quantity})`}
             />
           </div>
         ))}
