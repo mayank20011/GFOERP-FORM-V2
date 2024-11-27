@@ -41,7 +41,7 @@ function SalesForm() {
     data[`Quantity`] = quantity;
 
     // console.log(data);
-    const reqUrl = `${import.meta.env.VITE_DB_URL}Sales/`;
+    const reqUrl = `${import.meta.env.VITE_DB_URL}/Sales/`;
 
 
     // To send data to spread sheet

@@ -27,7 +27,7 @@ function PurchaseForm() {
 
     console.log(data);
     const reqUrl =
-      `${import.meta.env.VITE_DB_URL}Purchase/`;
+      `${import.meta.env.VITE_DB_URL}/Purchase/`;
 
 
     // For sending data to db
