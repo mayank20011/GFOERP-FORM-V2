@@ -35,7 +35,7 @@ function App() {
       {/* This div will contain button and forms */}
       <div className="mx-4 w-full opacity-95 grid gap-4 my-12 p-6 md:space-y-6 md:p-14 relative bg-gray-100 md:mx-0 md:w-4/5 lg:w-2/3 xl:w-1/2">
         
-        <img src={logo} className="absolute -top-8 -left-8 w-36 -rotate-45 hover:scale-105 transition duration-300 cursor-pointer md:-left-10 md:w-48 sm:-left-20 md:-top-16"/>
+        <img src={logo} className="hidden sm:block absolute -top-8 -left-8 w-36 -rotate-45 hover:scale-105 transition duration-300 cursor-pointer md:-left-10 md:w-48 sm:-left-20 md:-top-16"/>
 
       <div className="absolute p-2 px-4 text-md md:px-4 md:py-3 md:text-3xl text-white bg-green-600" style={{"right":"48%", "top":"-30px"}}>V</div>
         {/* Form Heading */}
