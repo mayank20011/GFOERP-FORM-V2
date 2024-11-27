@@ -82,7 +82,7 @@ function SalesForm() {
   // To Fetch Product Name from the server
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_DB_URL}Products/`)
+      .get(`${import.meta.env.VITE_DB_URL}/Products/`)
       .then((response) => {
         // console.log(response.data.data);
         setProducts(response.data.data);
