@@ -17,8 +17,8 @@ function PurchaseForm() {
 
   function handleSubmit(e)
   {
-    // console.log(e.target);
     e.preventDefault();
+    let spreadSheatData = {};
     const formData = new FormData(e.target);
     const data = {};
     formData.forEach((value, key) => {

@@ -4,7 +4,7 @@ import PurchaseForm from "./components/PurchaseForm";
 import SalesForm from "./components/SalesForm";
 import styles from "./App.module.css";
 import logo from "./img/logo.png";
-// import backgroundImage from "./img/grass.jpg"
+import "./app.css";
 
 function App() {
   const [selectedForm, setSelectedForm] = useState("purchaseForm");

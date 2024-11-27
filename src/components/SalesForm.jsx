@@ -6,6 +6,24 @@ import ClientComponent from "./ClientComponent";
 import Alertmessage from "./Alertmessage.jsx";
 
 function SalesForm() {
+  // function to convert string for mapping to googlesheets
+  function convertString(keyString) {
+    let newkey = "";
+    // console.log(keyString);
+    for (let index = 0; index < keyString.length; index++) {
+      let eachChar = keyString[index];
+      if (index == 0) {
+        newkey = newkey + eachChar.toUpperCase();
+      } else {
+        if (eachChar >= "A" && eachChar <= "Z" && eachChar != " ") {
+          newkey = newkey + ` ${eachChar}`;
+        } else {
+          newkey = newkey + eachChar;
+        }
+      }
+    }
+    return newkey;
+  }
   const refArray = useRef([]);
   // function to clear form values only after data saved in db
   function clearForm() {
@@ -24,10 +42,14 @@ function SalesForm() {
     e.preventDefault();
     const formData = new FormData(e.target);
     let data = {};
-    let spreadSheatData={};
+    let spreadSheatData = {};
     let quantity = {};
     formData.forEach((value, key) => {
-      spreadSheatData[key]=value;
+      if (key == "clientName" || key == "dateOfOrder" || key == "dateOfDispatchAndTime") {
+        spreadSheatData[`${convertString(key)}`]=value;
+      } else {
+        spreadSheatData[key] = value;
+      }
       if (
         key == "dateOfDispatchAndTime" ||
         key == "dateOfOrder" ||
@@ -43,23 +65,19 @@ function SalesForm() {
     // console.log(data);
     const reqUrl = `${import.meta.env.VITE_DB_URL}/Sales/`;
 
-
     // To send data to spread sheet
     fetch(`${import.meta.env.VITE_SALES_SHEET_URL}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-          data: [
-            spreadSheatData,
-          ]
-      })
-  })
-    .then((response) => response.json())
-    .then((data) => console.log(data));
-  
+        data: [spreadSheatData],
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data));
 
     // To send data to mongodb
     axios
