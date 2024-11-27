@@ -140,7 +140,7 @@ function PurchaseForm() {
         <div className="grid">
           <label htmlFor="adulteration" className="text-blue-600">Adulteration
           </label>
-          <select className="border-2 rounded-sm h-10 outline-none w-full cursor-pointer text-gray-400 bg-white" name="adulteration"
+          <select className="border-2 rounded-sm h-10 outline-none w-full cursor-pointer text-gray-400 bg-white p-3" name="adulteration"
           ref={ (el)=>refArray.current[5]=el }>
             <option value="Yes">Yes</option>
             <option value="No">No</option>
@@ -164,7 +164,7 @@ function PurchaseForm() {
         <div className="grid">
           <label htmlFor="whatToDo" className="text-blue-600">What To Do?
           </label>
-          <select className="border-2 rounded-sm h-10 outline-none w-full cursor-pointer text-gray-400 bg-white" name="whatToDo" ref={ (el)=>refArray.current[7]=el }>
+          <select className="border-2 rounded-sm h-10 outline-none w-full cursor-pointer text-gray-400 bg-white p-3" name="whatToDo" ref={ (el)=>refArray.current[7]=el }>
             <option value="Accept">Accept</option>
             <option value="Reject">Reject</option>
           </select>
