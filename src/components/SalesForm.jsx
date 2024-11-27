@@ -151,7 +151,7 @@ function SalesForm() {
               className="text-blue-600"
             >{`${product.productName} (${product.quantity})`}</label>
             <input
-              type="text"
+              type="number"
               placeholder="Enter Quantity ..."
               className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer"
               name={`${product.productName} (${product.quantity})`}
