@@ -118,7 +118,7 @@ function SalesForm() {
           <input
             type="date"
             placeholder="Enter Date of Order"
-            className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400"
+            className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400 bg-white"
             name="dateOfOrder"
             ref={(el) => (refArray.current[16] = el)}
           />
@@ -130,7 +130,7 @@ function SalesForm() {
           <input
             type="datetime-local"
             placeholder="Enter Date of Order"
-            className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400"
+            className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400 bg-white"
             name="dateOfDispatchAndTime"
             ref={(el) => (refArray.current[17] = el)}
           />
