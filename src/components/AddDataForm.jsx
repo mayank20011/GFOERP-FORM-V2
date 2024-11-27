@@ -3,6 +3,7 @@ import { useRef } from "react";
 import axios from "axios";
 
 function AddDataForm() {
+
   const clientName = useRef(null);
   const productName = useRef(null);
   const productQuantity = useRef(null);
@@ -20,7 +21,7 @@ function AddDataForm() {
 
   function addClientToDb() {
     axios
-      .post("https://gfoerp-mern-api.vercel.app/Client/", {
+      .post(`${import.meta.env.VITE_DB_URL}Client/`, {
         clientName: clientName.current.value,
       })
       .then((response) => {
@@ -41,7 +42,7 @@ function AddDataForm() {
 
   function addProductInDb() {
     axios
-      .post("https://gfoerp-mern-api.vercel.app/Products/", {
+      .post(`${import.meta.env.VITE_DB_URL}Products/`, {
         productName: productName.current.value,
         quantity: productQuantity.current.value,
       })
@@ -114,7 +115,6 @@ function AddDataForm() {
         </button>
       </div>
 
-      {/* <img src={drinkingAnimation} className="h-48 justify-self-end" style={{"mixBlendMode":"colorBurn"}}/> */}
     </div>
   );
 }

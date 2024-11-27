@@ -41,11 +41,11 @@ function SalesForm() {
     data[`Quantity`] = quantity;
 
     // console.log(data);
-    const reqUrl = "https://gfoerp-mern-api.vercel.app/Sales/";
+    const reqUrl = `${import.meta.env.VITE_DB_URL}Sales/`;
 
 
     // To send data to spread sheet
-    fetch('https://sheetdb.io/api/v1/tgvavtf2ryd7v', {
+    fetch(`${import.meta.env.VITE_SALES_SHEET_URL}`, {
       method: 'POST',
       headers: {
           'Accept': 'application/json',
@@ -82,7 +82,7 @@ function SalesForm() {
   // To Fetch Product Name from the server
   useEffect(() => {
     axios
-      .get("https://gfoerp-mern-api.vercel.app/Products/")
+      .get(`${import.meta.env.VITE_DB_URL}Products/`)
       .then((response) => {
         // console.log(response.data.data);
         setProducts(response.data.data);

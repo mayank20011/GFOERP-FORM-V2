@@ -25,7 +25,7 @@ function ClientComponent() {
   //Hook will run when component will get rendered
   useEffect(() => {
     axios
-      .get("https://gfoerp-mern-api.vercel.app/Client/")
+      .get(`${import.meta.env.VITE_DB_URL}Client/`)
       .then((response) => {
         let names = [];
         response.data.data.forEach((obj) => {

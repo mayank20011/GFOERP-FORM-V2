@@ -27,7 +27,7 @@ function PurchaseForm() {
 
     console.log(data);
     const reqUrl =
-      "https://gfoerp-mern-api.vercel.app/Purchase/";
+      `${import.meta.env.VITE_DB_URL}Purchase/`;
 
 
     // For sending data to db
@@ -48,7 +48,7 @@ function PurchaseForm() {
       });
 
     //  For sending data to spreadsheet
-    fetch('https://sheetdb.io/api/v1/mddu54uskl6xa', {
+    fetch(`${import.meta.env.VITE_PURCHASE_SHEET_URL}`, {
       method: 'POST',
       headers: {
           'Accept': 'application/json',

@@ -2,9 +2,10 @@ import { useState } from "react";
 import AddDataForm from "./components/AddDataForm";
 import PurchaseForm from "./components/PurchaseForm";
 import SalesForm from "./components/SalesForm";
-import "./app.css";
+import styles from "./App.module.css";
 import logo from "./img/logo.png";
-import Alertmessage from "./components/Alertmessage";
+// import backgroundImage from "./img/grass.jpg"
+
 function App() {
   const [selectedForm, setSelectedForm] = useState("purchaseForm");
 
@@ -28,8 +29,7 @@ function App() {
   return (
     // div for background
     <div
-      className="min-h-screen w-full flex items-center justify-center bg-custom-image bg-center bg-cover bg-no-repeat w-100"
-      style={{ filter: "blur(0px)" }}
+      className={`min-h-screen w-full flex items-center justify-center  bg-center bg-cover bg-no-repeat w-100 ${styles.backgroundImage}`}
     >
 
       {/* This div will contain button and forms */}
