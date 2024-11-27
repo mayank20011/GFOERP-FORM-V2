@@ -76,7 +76,7 @@ function PurchaseForm() {
           <label htmlFor="quantity" className="text-blue-600">Quantity
           </label>
           <input
-            type="text"
+            type="number"
             placeholder="Enter Quantity in Liters"
             className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400"
             name="quantity"
@@ -89,7 +89,7 @@ function PurchaseForm() {
           <label htmlFor="fat" className="text-blue-600">FAT
           </label>
           <input
-            type="text"
+            type="number"
             placeholder="Enter Fat %"
             className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400"
             name="fat"
@@ -102,7 +102,7 @@ function PurchaseForm() {
           <label htmlFor="clr" className="text-blue-600">CLR
           </label>
           <input
-            type="text"
+            type="number"
             placeholder="Enter CLR Value"
             className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400"
             name="clr"
@@ -115,7 +115,7 @@ function PurchaseForm() {
           <label htmlFor="alchol" className="text-blue-600">Alchol
           </label>
           <input
-            type="text"
+            type="number"
             placeholder="Enter alchol %"
             className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400"
             name="alchol"
@@ -128,7 +128,7 @@ function PurchaseForm() {
           <label htmlFor="Acidity" className="text-blue-600">Acidity
           </label>
           <input
-            type="text"
+            type="number"
             placeholder="Enter Acidity of Milk"
             className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-gray-400"
             name="acidity"
