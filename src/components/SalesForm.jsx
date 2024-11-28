@@ -3,7 +3,7 @@ import React from "react";
 import { useEffect, useState, useRef } from "react";
 import LoadingForm from "./LoadingForm";
 import ClientComponent from "./ClientComponent";
-import Alertmessage from "./Alertmessage.jsx";
+import { Bounce, toast } from "react-toastify";
 
 function SalesForm() {
 
@@ -24,7 +24,7 @@ function SalesForm() {
     }
     return newkey;
   }
-  
+
   const refArray = useRef([]);
   // function to clear form values only after data saved in db
   function clearForm() {
@@ -87,7 +87,16 @@ function SalesForm() {
         if (response.status >= 200 && response.status < 300) {
           // If the status code is in the success range (200-299), the request was successful
           console.log("Request successful:", response.data);
-          alert(`Data Saved Successfully in db`);
+          toast.success('Sales Data saved to Databse',
+            {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick:true,
+              pauseOnHover:true,
+              dragable:true,
+              transition:Bounce,
+            })
           clearForm();
         }
       })
