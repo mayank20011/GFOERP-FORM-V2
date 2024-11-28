@@ -5,6 +5,24 @@ import { useRef } from "react";
 
 function PurchaseForm() {
 
+  // function to convert string for mapping to googlesheets
+  function convertString(keyString) {
+    let newkey = "";
+    for (let index = 0; index < keyString.length; index++) {
+      let eachChar = keyString[index];
+      if (index == 0) {
+        newkey = newkey + eachChar.toUpperCase();
+      } else {
+        if (eachChar >= "A" && eachChar <= "Z" && eachChar != " ") {
+          newkey = newkey + ` ${eachChar}`;
+        } else {
+          newkey = newkey + eachChar;
+        }
+      }
+    }
+    return newkey;
+  }
+
   const refArray= useRef([]);
   // function to clear form values only after data saved in db
   function clearForm()
@@ -12,7 +30,6 @@ function PurchaseForm() {
     refArray.current.forEach((element)=>{
       element.value="";
     });
-    
   }
 
   function handleSubmit(e)
@@ -22,10 +39,11 @@ function PurchaseForm() {
     const formData = new FormData(e.target);
     const data = {};
     formData.forEach((value, key) => {
+      spreadSheatData[`${convertString(key)}`]=value;
       data[key] = value;
     });
 
-    console.log(data);
+    console.log(spreadSheatData);
     const reqUrl =
       `${import.meta.env.VITE_DB_URL}/Purchase/`;
 
@@ -56,7 +74,7 @@ function PurchaseForm() {
       },
       body: JSON.stringify({
           data: [
-              data
+            spreadSheatData
           ]
       })
   })

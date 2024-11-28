@@ -6,10 +6,10 @@ import ClientComponent from "./ClientComponent";
 import Alertmessage from "./Alertmessage.jsx";
 
 function SalesForm() {
+
   // function to convert string for mapping to googlesheets
   function convertString(keyString) {
     let newkey = "";
-    // console.log(keyString);
     for (let index = 0; index < keyString.length; index++) {
       let eachChar = keyString[index];
       if (index == 0) {
@@ -24,6 +24,7 @@ function SalesForm() {
     }
     return newkey;
   }
+  
   const refArray = useRef([]);
   // function to clear form values only after data saved in db
   function clearForm() {
