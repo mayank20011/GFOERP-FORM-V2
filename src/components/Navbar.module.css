@@ -1,0 +1,7 @@
+@media(max-width:1280px)
+{
+   .navlinks
+   {
+    transform:translateX(100%);
+   }
+}
