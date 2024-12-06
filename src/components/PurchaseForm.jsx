@@ -1,92 +1,102 @@
 import React from "react";
-import ClientComponent from "./ClientComponent";
-import axios from "axios";
-import { useRef } from "react";
 import girlTyping from "../img/girlTyping.gif";
+import { useState, useEffect } from "react";
+import Remark from "./Remark.jsx";
+import PurchaseMilk from "./PurchaseMilk.jsx";
+import VendorList from "./VendorList.jsx";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function PurchaseForm() {
-  // function to convert string for mapping to googlesheets
-  function convertString(keyString) {
-    let newkey = "";
-    for (let index = 0; index < keyString.length; index++) {
-      let eachChar = keyString[index];
-      if (index == 0) {
-        newkey = newkey + eachChar.toUpperCase();
-      } else {
-        if (eachChar >= "A" && eachChar <= "Z" && eachChar != " ") {
-          newkey = newkey + ` ${eachChar}`;
-        } else {
-          newkey = newkey + eachChar;
-        }
-      }
+
+  // for loading
+  const [loading, setLoading]=useState(true);
+
+  // to check if the batch passed the test or not?
+  const [passedorFailed, setPassedOrFailed] = useState(null);
+
+  // to store clients data comming from the server
+  const [clients, setClients]=useState(null);
+
+  // to change value of pass fail
+  function changeValuesOfPassFail(e) {
+    if (e.target.value === "Yes") {
+      setPassedOrFailed("Passed");
+    } else {
+      setPassedOrFailed("Failed");
     }
-    return newkey;
   }
 
-  const refArray = useRef([]);
-  // function to clear form values only after data saved in db
-  function clearForm() {
-    refArray.current.forEach((element) => {
-      element.value = "";
-    });
-  }
+  // for selection of vendor and sharing its data to multiple components
+  const [selectedVendor, setSelectedVendor]=useState(null);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    let spreadSheatData = {};
-    const formData = new FormData(e.target);
-    const data = {};
-    formData.forEach((value, key) => {
-      spreadSheatData[`${convertString(key)}`] = value;
-      data[key] = value;
-    });
-
-    console.log(spreadSheatData);
-    const reqUrl = `${import.meta.env.VITE_DB_URL}/Purchase/`;
-
-    // For sending data to db
-    axios
-      .post(reqUrl, data)
-      .then((response) => {
-        if (response.status >= 200 && response.status < 300) {
-          // If the status code is in the success range (200-299), the request was successful
-          console.log("Request successful:", response.data);
-          alert(`Data Saved Successfully in db`);
-          clearForm();
-        }
-      })
-      .catch((error) => {
-        // Handle errors (non-2xx status codes or network errors)
-        console.error("Request failed:", error.response || error.message);
-        alert(`Failure:${error}`);
-      });
-
-    //  For sending data to spreadsheet
-    fetch(`${import.meta.env.VITE_PURCHASE_SHEET_URL}`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        data: [spreadSheatData],
-      }),
+  // to get data from server
+  useEffect(()=>{
+   axios.get("http://localhost:5000/GFOERP/PurchaseVendors")
+   .then((response)=>
+    {
+      console.log(response.data);
+       setClients(response.data); 
+       setLoading(false);
     })
-      .then((response) => response.json())
-      .then((data) => console.log(data));
-  }
+   .catch((err)=>
+    {
+      toast.error('Something Went Wrong');
+      console.log('Error while fetching clients from Server is :');
+      console.log(err);
+      setLoading(false);
+    })
+  },[]);
+   
+  if(loading)
+    {
+        return <p>Loading . . .</p>
+    }
+
   return (
     // to hold form and image
     <div className="flex w-full gap-4 items-center justify-between">
       {/* pass Fail container */}
-      <div className="w-full lg:w-1/2 space-y-8 self-start pt-12">
-        <h1 className="text-3xl text-center font-bold">
+      <div className="w-full lg:w-1/2 space-y-4 self-start pt-12">
+
+        <h1 className="text-3xl text-left text-green-600 font-bold capitalize">Select Vendor</h1>
+        <VendorList clients={clients} setSelectedVendor={setSelectedVendor}/>         
+     
+        <h1 className="text-3xl text-left text-green-600 font-bold">
           Did Batch Passed the Lab Test ?
         </h1>
-        <select className="w-full outline-none h-12 border-2 rounded-md cursor-pointer px-4" name="passOrFail">
-          <option value="Yes" className="cursor-pointer">Yes</option>
-          <option value="No" className="cursor-pointer">No</option>
+
+        <select
+          className="w-full outline-none h-12 border-2 rounded-md cursor-pointer px-4"
+          name="passOrFail"
+          onClick={changeValuesOfPassFail}
+        >
+          <option value="Yes" className="cursor-pointer">
+            Yes
+          </option>
+          <option value="No" className="cursor-pointer">
+            No
+          </option>
         </select>
+
+        {passedorFailed == "Failed" ? (
+          <Remark />
+        ) : passedorFailed === "Passed" ? (
+          <PurchaseMilk selectedVendor={selectedVendor}/>
+        ) : (
+          ""
+        )}
+
+        {passedorFailed !== null ? (
+          <button
+            className="text-white font-bold text-xl w-full text-cener bg-green-600 py-2 rounded-lg hover:scale-95 transition md:w-fit md:px-8 md:text-md shadow-2xl shadow-black"
+            type="submit"
+          >
+            {passedorFailed === "Passed"
+              ? "Add To Stock"
+              : "Send Remark To Customer"}
+          </button>
+        ) : null}
       </div>
 
       {/* img and  other stuff*/}
@@ -219,3 +229,76 @@ export default PurchaseForm;
 //         Submit
 //       </button>
 //     </form> */}
+
+
+
+  // // function to convert string for mapping to googlesheets
+  // function convertString(keyString) {
+  //   let newkey = "";
+  //   for (let index = 0; index < keyString.length; index++) {
+  //     let eachChar = keyString[index];
+  //     if (index == 0) {
+  //       newkey = newkey + eachChar.toUpperCase();
+  //     } else {
+  //       if (eachChar >= "A" && eachChar <= "Z" && eachChar != " ") {
+  //         newkey = newkey + ` ${eachChar}`;
+  //       } else {
+  //         newkey = newkey + eachChar;
+  //       }
+  //     }
+  //   }
+  //   return newkey;
+  // }
+
+  // const refArray = useRef([]);
+  // // function to clear form values only after data saved in db
+  // function clearForm() {
+  //   refArray.current.forEach((element) => {
+  //     element.value = "";
+  //   });
+  // }
+
+  // function handleSubmit(e) {
+  //   e.preventDefault();
+  //   let spreadSheatData = {};
+  //   const formData = new FormData(e.target);
+  //   const data = {};
+  //   formData.forEach((value, key) => {
+  //     spreadSheatData[`${convertString(key)}`] = value;
+  //     data[key] = value;
+  //   });
+
+  //   console.log(spreadSheatData);
+  //   const reqUrl = `${import.meta.env.VITE_DB_URL}/Purchase/`;
+
+  //   // For sending data to db
+  //   axios
+  //     .post(reqUrl, data)
+  //     .then((response) => {
+  //       if (response.status >= 200 && response.status < 300) {
+  //         // If the status code is in the success range (200-299), the request was successful
+  //         console.log("Request successful:", response.data);
+  //         alert(`Data Saved Successfully in db`);
+  //         clearForm();
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       // Handle errors (non-2xx status codes or network errors)
+  //       console.error("Request failed:", error.response || error.message);
+  //       alert(`Failure:${error}`);
+  //     });
+
+  //   //  For sending data to spreadsheet
+  //   fetch(`${import.meta.env.VITE_PURCHASE_SHEET_URL}`, {
+  //     method: "POST",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       data: [spreadSheatData],
+  //     }),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => console.log(data));
+  // }
