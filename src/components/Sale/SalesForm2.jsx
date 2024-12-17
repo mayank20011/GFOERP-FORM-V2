@@ -1,29 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
-import LoadingForm from "./LoadingForm";
+import LoadingForm from "../LoadingForm";
 import { Bounce, toast } from "react-toastify";
-import InputFilterList from "./InputFilterList/InputFilterList";
-import ProductContainer from "./Sale/productContainer/ProductContainer";
+import InputFilterList from "../InputFilterList/InputFilterList";
+import ProductContainer from "./productContainer/ProductContainer";
 
-function SalesForm() {
-  function convertString(keyString) {
-    let newkey = "";
-    for (let index = 0; index < keyString.length; index++) {
-      let eachChar = keyString[index];
-      if (index == 0) {
-        newkey = newkey + eachChar.toUpperCase();
-      } else {
-        if (eachChar >= "A" && eachChar <= "Z" && eachChar !== " ") {
-          newkey = newkey + ` ${eachChar}`;
-        } else {
-          newkey = newkey + eachChar;
-        }
-      }
-    }
-    return newkey;
-  }
+function SalesForm2() {
 
-  const refArray = useRef([]);
   function clearForm() {
     refArray.current.forEach((element) => {
       element.value = "";
@@ -107,28 +90,6 @@ function SalesForm() {
       });
   }
 
-  // useEffect(() => {
-
-  //   axios
-  //     .get(`http://localhost:5000/GFOERP/Client`)
-  //     .then((response) => {
-  //       setClient(response.data.data);
-  //       console.log(response.data.data);
-  //       setLoading(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-
-  //   axios.get(`http://localhost:5000/GFOERP/ProductsVendors`)
-  //   .then((response)=>{
-  //       console.log(response.data.data);
-  //       setVendors(response.data.data);
-  //   })
-  //   .catch((err)=>{ console.log(err) });
-
-  // }, []);
-
   useEffect(() => {
     const fetchClient = axios.get("http://localhost:5000/GFOERP/Client");
     const fetchVendors = axios.get(
@@ -154,15 +115,6 @@ function SalesForm() {
   return (
     <form className="gap-6 flex flex-col w-100" onSubmit={handleSubmit}>
       <div className="w-full lg:w-1/2 space-y-4 self-start">
-        {/* for client Name */}
-        <h1 className="text-3xl text-left text-orange-600 font-bold capitalize">
-          Enter Client Name
-        </h1>
-        <InputFilterList
-          clients={clients}
-          setSelectedVendor={setSelectedClient}
-        />
-
         {/* For Vendor Name */}
         <h1 className="text-3xl text-left text-orange-600 font-bold capitalize">
           Select Vendor
@@ -187,4 +139,4 @@ function SalesForm() {
   );
 }
 
-export default SalesForm;
+export default SalesForm2;

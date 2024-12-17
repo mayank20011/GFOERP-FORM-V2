@@ -27,7 +27,6 @@ function LoginForm({setRoles}) {
         if (response.data.authorization) {
           setLoading(false);
           toast.success("Permission Granted");
-          console.log(response.data.roles);
           setRoles(response.data.roles);
         } else {
           setLoading(false);

@@ -1,6 +1,9 @@
 import React from "react";
 import { useState, useRef } from "react";
-function VendorList({ clients, setSelectedVendor }) {
+
+// This component will take a array of obj as input and then create a list from the names from the objects
+
+function InputFilterList({ clients, setSelectedVendor }) {
 
   // to create a copy of clients for applying filter
   const [copyClients, setCopyClients] = useState(clients);
@@ -20,11 +23,10 @@ function VendorList({ clients, setSelectedVendor }) {
   }
 
   // to handle name clicked from name list
-  function nameClicked(e,client) {
+  function nameClicked(e, client) {
     nameInput.current.value = e.target.textContent;
     setSelectedVendor(client);
     setOpenList(false);
-    console.log(client);
   }
 
   return (
@@ -49,7 +51,9 @@ function VendorList({ clients, setSelectedVendor }) {
             <div
               className="text-bold text-green-600 bg-slate-100 p-2 rounded-sm cursor-pointer hover:scale-95 transition font-bold"
               // onClick={nameClicked}
-              onClick={(e)=>{nameClicked(e,client)}}
+              onClick={(e) => {
+                nameClicked(e, client);
+              }}
               key={client.name}
             >
               {client.name}
@@ -61,4 +65,4 @@ function VendorList({ clients, setSelectedVendor }) {
   );
 }
 
-export default VendorList;
+export default InputFilterList;

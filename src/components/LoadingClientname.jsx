@@ -11,4 +11,4 @@ function LoadingClientname() {
   )
 }
 
-export default LoadingClientname
+export default LoadingClientname;

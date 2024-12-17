@@ -1,12 +1,8 @@
 import React from "react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+
 function PurchaseMilk({ selectedVendor }) {
-  let rate;
-  if (selectedVendor) {
-    rate = selectedVendor.rate;
-  } else {
-    rate = 0;
-  }
+  let snf = 0;
 
   // for snf value
   const [snfValue, setSnfValue] = useState(0);
@@ -16,16 +12,49 @@ function PurchaseMilk({ selectedVendor }) {
   // to get fat and clr value from the input field
   const clr = useRef(0);
   const fat = useRef(0);
+  const milkAmount = useRef(0);
+  const err1=useRef(null);
+  const err2=useRef(null);
+  const err3=useRef(null);
+
+  useEffect(() => {
+  }, [snfValue]);
+
+  // To Calculate Money
+  function calculateMoney() {
+    err1.current.textContent='';
+    if(clr.current.value.length==0 || fat.current.value.length==0 || milkAmount.current.value.length==0)
+      {
+         if(clr.current.value.length===0)
+         {
+             err3.current.textContent=clr.current.validationMessage;
+          }
+         if(fat.current.value.length===0)
+          {
+             err2.current.textContent=fat.current.validationMessage;
+          }
+         if(milkAmount.current.value.length===0){
+            err1.current.textContent=milkAmount.current.validationMessage;
+         }
+      }
+    else{
+    const moneycalculated =
+      (milkAmount.current.value / 100) *
+      (fat.current.value * selectedVendor.fatRate +
+        selectedVendor.snfRate * snfValue);
+    setMoney(moneycalculated);
+  }
+  }
 
   // To calculate and update snf value on ui
   function calculateSnfValue() {
-    let snf = clr.current.value / 4 + 0.2 * fat.current.value + 0.66;
+    setMoney(0);
+    err2.current.textContent='';
+    err3.current.textContent='';
+    snf = clr.current.value / 4 + 0.2 * fat.current.value + 0.66;
     setSnfValue(snf);
   }
 
-  function calculateMoney() {
-    setMoney(snfValue * rate);
-  }
   if (selectedVendor == null) {
     return <p>Please Select a Vendor First</p>;
   }
@@ -47,7 +76,10 @@ function PurchaseMilk({ selectedVendor }) {
             className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer text-black"
             name="amount"
             onChange={calculateMoney}
+            ref={milkAmount}
+            required
           />
+          <span className="text-red-600" ref={err1}></span>
         </div>
 
         {/*For fat% the product  */}
@@ -62,7 +94,9 @@ function PurchaseMilk({ selectedVendor }) {
             name="fat"
             onChange={calculateSnfValue}
             ref={fat}
+            required
           />
+          <span className="text-red-600" ref={err2}></span>
         </div>
 
         {/*For clr the product  */}
@@ -77,7 +111,9 @@ function PurchaseMilk({ selectedVendor }) {
             name="clr"
             onChange={calculateSnfValue}
             ref={clr}
+            required
           />
+          <span className="text-red-600" ref={err3}></span>
         </div>
 
         {/* for vechile Number */}
@@ -116,9 +152,18 @@ function PurchaseMilk({ selectedVendor }) {
           <label htmlFor="money" className="text-blue-600 text-xl">
             Net Amount For Purchase is :
           </label>
-          <p className="border-2 text-gray-400 p-2 rounded-sm cursor-not-allowed select-none">
-            {money}
-          </p>
+          <div className="flex gap-2">
+            <p className="border-2 text-gray-400 p-2 rounded-sm cursor-not-allowed select-none grow">
+              {money}
+            </p>
+
+            <button
+              onClick={calculateMoney}
+              className="bg-orange-600 text-white p-2 rounded-md cursor-pointer hover:scale-95 transition"
+            >
+              Calculate Amount
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -126,10 +171,3 @@ function PurchaseMilk({ selectedVendor }) {
 }
 
 export default PurchaseMilk;
-
-// ,
-// "name":"",
-//  "rate":,
-// "phoneNumber":["",""],
-// "vechileNumber":["","",""],
-// "balanceAmount"
