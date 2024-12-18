@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
-import LoadingForm from "./LoadingForm";
+import LoadingForm from "./Sale/LoadingForm";
 import { Bounce, toast } from "react-toastify";
 import InputFilterList from "./InputFilterList/InputFilterList";
 import ProductContainer from "./Sale/productContainer/ProductContainer";

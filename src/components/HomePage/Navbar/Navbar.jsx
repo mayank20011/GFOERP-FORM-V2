@@ -13,7 +13,8 @@ function Navbar({ roles, setShowComponent }) {
   }
 
   function navButtonClicked(e) {
-   setShowComponent(e.target.id);
+    if(e.target.id!="dashBoard"){
+   setShowComponent(e.target.id)};
   }
 
   function navDivClick()

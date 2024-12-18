@@ -1,12 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
-import LoadingForm from "../LoadingForm";
+import LoadingForm from "./LoadingForm";
 import { Bounce, toast } from "react-toastify";
 import InputFilterList from "../InputFilterList/InputFilterList";
 import ProductContainer from "./productContainer/ProductContainer";
 
 function SalesForm2() {
-
   function clearForm() {
     refArray.current.forEach((element) => {
       element.value = "";
@@ -26,68 +25,16 @@ function SalesForm2() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    const data={
+      vendorName:"",
+    }
     const formData = new FormData(e.target);
-    let data = {};
-    let spreadSheatData = {};
-    let quantity = {};
-    formData.forEach((value, key) => {
-      if (
-        key === "clientName" ||
-        key === "dateOfOrder" ||
-        key === "dateOfDispatchAndTime"
-      ) {
-        spreadSheatData[`${convertString(key)}`] = value;
-      } else {
-        spreadSheatData[key] = value;
+    for (const [key, value] of formData.entries()) {
+      if(value!=""){
+         data[key]=value;
       }
-      if (
-        key === "dateOfDispatchAndTime" ||
-        key === "dateOfOrder" ||
-        key === "clientName"
-      ) {
-        data[key] = value;
-      } else {
-        quantity[key] = value;
-      }
-    });
-    data[`Quantity`] = quantity;
-
-    const reqUrl = `${import.meta.env.VITE_DB_URL}/Sales/`;
-
-    fetch(`${import.meta.env.VITE_SALES_SHEET_URL}`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        data: [spreadSheatData],
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data));
-
-    axios
-      .post(reqUrl, data)
-      .then((response) => {
-        if (response.status >= 200 && response.status < 300) {
-          console.log("Request successful:", response.data);
-          toast.success("Sales Data saved to Database", {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            transition: Bounce,
-          });
-          clearForm();
-        }
-      })
-      .catch((error) => {
-        console.error("Request failed:", error.response || error.message);
-        alert(`Failure:${error}`);
-      });
+    }
+    console.log(data);
   }
 
   useEffect(() => {
