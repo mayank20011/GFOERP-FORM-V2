@@ -1,9 +1,15 @@
 import { useState } from "react";
 import Navbar from "./Navbar/Navbar.jsx";
 import Body from "./Body/Body.jsx";
+import { useEffect } from "react";
 function HomePage({ roles }) {
+
   // 7 useStates for 7 components
   const [showComponent, setShowComponent] = useState(null);
+
+  useEffect(()=>{
+    setShowComponent(roles[0]);  
+  },[]);
 
   return (
     // div to hold homepage

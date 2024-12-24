@@ -1,13 +1,17 @@
 import React from "react";
 import girlTyping from "../../img/girlTyping.gif";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Remark from "./Remark.jsx";
 import PurchaseMilk from "./PurchaseMilk.jsx";
 import InputFilterList from "../InputFilterList/InputFilterList.jsx";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 function PurchaseForm() {
+ 
+  // for form
+  const form=useRef(null);
+
   // for loading
   const [loading, setLoading] = useState(true);
 
@@ -46,6 +50,87 @@ function PurchaseForm() {
       });
   }, []);
 
+  function Whatsapp(message) {
+    console.log(message);
+    form.current.reset();
+  }
+
+  function sendWhatsapp(dataToSend, success = false) {
+    let message = "";
+
+    // if labtest passed
+    if(success){
+      message = `Hey ${selectedVendor.name} !, We are happy to say that your Product Passed our Labtest, amount of milk is ${dataToSend.amount} kg and the fat% in your product is ${dataToSend.fat}% and clr value is ${dataToSend.clr} which genearte a total amout of ${dataToSend.money} and your balnce amount is:`;
+      Whatsapp(message);
+    }
+
+    // if labtest failed
+    else{
+      if (dataToSend.remark == "") {
+        toast.error("Enter Remark");
+      } 
+      else{
+        message = `Hey ${selectedVendor.name} !, We are sorry to inform that Your Product did not meet our passing Criteria, Reason for failing our test is: ${dataToSend.remark}`;
+        Whatsapp(message);
+      }
+    }
+  }
+
+  function sendToDb(dataToSend) {
+    if (dataToSend.money == 0) {
+      toast.error("Generate Money First");
+    } else {
+      axios
+        .post("http://localhost:5000/GFOERP/PurchaseData",dataToSend)
+        .then((response) => {
+          if (response.data.success) {
+            toast.success("Saved To Db Successfully");
+            form.current.reset();
+            sendWhatsapp(dataToSend, true);
+          } else {
+            toast.error("Issue While Saving Data in DataBase");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Server issue");
+        });
+    }
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const now = new Date();
+    const formData = new FormData(e.target);
+    const dataToSend = {
+      dateAndTime: {
+        date: "",
+        month: "",
+        year: "",
+        time: "",
+      },
+      purchasingRates: {
+        fatRate: 0,
+        snfRate: 0,
+      },
+    };
+    for (const [key, value] of formData.entries()) {
+      dataToSend[key] = value;
+    }
+    dataToSend.dateAndTime.date = now.getDate();
+    dataToSend.dateAndTime.month = now.getMonth();
+    dataToSend.dateAndTime.year = now.getFullYear();
+    dataToSend.dateAndTime.time = `${now.getHours()}:${now.getMinutes()}`;
+    dataToSend.purchasingRates.fatRate = selectedVendor.fatRate;
+    dataToSend.purchasingRates.snfRate = selectedVendor.snfRate;
+    console.log(dataToSend);
+    if (passedorFailed === "Passed") {
+      sendToDb(dataToSend);
+    } else {
+      sendWhatsapp(dataToSend, false);
+    }
+  }
+
   if (loading) {
     return <p>Loading . . .</p>;
   }
@@ -53,8 +138,13 @@ function PurchaseForm() {
   return (
     // to hold form and image
     <div className="flex w-full gap-4 items-center justify-between">
+      <ToastContainer />
       {/* pass Fail container */}
-      <div className="w-full lg:w-1/2 space-y-4 self-start">
+      <form
+        className="w-full lg:w-1/2 space-y-4 self-start"
+        onSubmit={handleSubmit}
+        ref={form}
+      >
         <h1 className="text-3xl text-left text-green-600 font-bold capitalize">
           Select Vendor
         </h1>
@@ -71,6 +161,7 @@ function PurchaseForm() {
         <div className="flex gap-4">
           <button
             className="px-6 py-2 text-white text-bold bg-green-600 rounded-md hover:scale-95 transition "
+            type="button"
             onClick={() => {
               setPassedOrFailed("Passed");
             }}
@@ -79,6 +170,7 @@ function PurchaseForm() {
           </button>
           <button
             className="px-6 py-2 text-white text-bold bg-red-600 rounded-md hover:scale-95 transition"
+            type="button"
             onClick={() => {
               setPassedOrFailed("Failed");
             }}
@@ -105,7 +197,7 @@ function PurchaseForm() {
               : "Send Remark To Customer"}
           </button>
         ) : null}
-      </div>
+      </form>
 
       {/* img and  other stuff*/}
       <div className="hidden mx-auto lg:block">

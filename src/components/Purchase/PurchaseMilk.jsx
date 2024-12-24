@@ -21,7 +21,8 @@ function PurchaseMilk({ selectedVendor }) {
   }, [snfValue]);
 
   // To Calculate Money
-  function calculateMoney() {
+  function calculateMoney(e) {
+    e.stopPropagation();
     err1.current.textContent='';
     if(clr.current.value.length==0 || fat.current.value.length==0 || milkAmount.current.value.length==0)
       {
@@ -58,6 +59,7 @@ function PurchaseMilk({ selectedVendor }) {
   if (selectedVendor == null) {
     return <p>Please Select a Vendor First</p>;
   }
+  
   return (
     <div className="space-y-4">
       {/* heading */}
@@ -138,13 +140,15 @@ function PurchaseMilk({ selectedVendor }) {
         </div>
 
         {/*For SNF  */}
-        <div className="">
+        <div className="grid">
           <label htmlFor="snf" className="text-blue-600 text-xl">
             SNF Value is :
           </label>
-          <p className="border-2 text-gray-400 p-2 rounded-sm cursor-not-allowed select-none">
-            {snfValue}
-          </p>
+          <input className="border-2 text-gray-400 p-2 rounded-sm cursor-not-allowed outline-none select-none"
+          value={snfValue}
+          readOnly
+          name="snfValue">
+          </input>
         </div>
 
         {/*For CalculatedMoney  */}
@@ -152,14 +156,17 @@ function PurchaseMilk({ selectedVendor }) {
           <label htmlFor="money" className="text-blue-600 text-xl">
             Net Amount For Purchase is :
           </label>
-          <div className="flex gap-2">
-            <p className="border-2 text-gray-400 p-2 rounded-sm cursor-not-allowed select-none grow">
-              {money}
-            </p>
+          <div className="flex gap-2 xxs:grid">
+            <input className="border-2 text-gray-400 p-2 rounded-sm cursor-not-allowed select-none grow"
+            value={money}
+            readOnly
+            name="money">
+            </input>
 
             <button
               onClick={calculateMoney}
-              className="bg-orange-600 text-white p-2 rounded-md cursor-pointer hover:scale-95 transition"
+              className="bg-orange-600 text-white p-2 rounded-md cursor-pointer hover:scale-95 transition xxs:w-fit"
+              type="button"
             >
               Calculate Amount
             </button>

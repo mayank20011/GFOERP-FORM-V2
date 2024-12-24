@@ -8,7 +8,8 @@ export default {
     extend: {
       screens:{
         '3xs':'1090',
-        'xs':'760'
+        'xs':'760',
+        'xxs': {'max':'475px'}
       },
       backgroundImage:{
         'custom-image':"url('./src/img/grass.jpg')"

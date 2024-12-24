@@ -34,7 +34,7 @@ function InputFilterList({ clients, setSelectedVendor }) {
       {/* for input */}
       <input
         type="text"
-        placeholder="Enter Vendor Name ..."
+        placeholder="Enter Name ..."
         className="w-full outline-none h-12 border-2 rounded-md cursor-pointer px-4"
         name="vendorName"
         onClick={() => {

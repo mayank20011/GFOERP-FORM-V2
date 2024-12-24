@@ -1,22 +1,19 @@
 import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
 import LoadingForm from "./LoadingForm";
-import { Bounce, toast } from "react-toastify";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 import InputFilterList from "../InputFilterList/InputFilterList";
 import ProductContainer from "./productContainer/ProductContainer";
 
 function SalesForm2() {
-  function clearForm() {
-    refArray.current.forEach((element) => {
-      element.value = "";
-    });
-  }
-
   // For Managing Loading
   const [loading, setLoading] = useState(true);
+
   // For Managing Clients
-  const [clients, setClient] = useState(null);
-  const [client, setSelectedClient] = useState(null);
+  const [clients, setClients] = useState(null);
+  const [selectedClient, setSelectedClient] = useState(null);
+  const [clientLoading, setClientLoading] = useState(false);
+
   // For Vendor List
   const [vendors, setVendors] = useState(null);
   const [selectedVendor, setSelectedVendor] = useState(null);
@@ -25,35 +22,62 @@ function SalesForm2() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const data={
-      vendorName:"",
-    }
+    const data = {
+      vendorName: "",
+    };
     const formData = new FormData(e.target);
     for (const [key, value] of formData.entries()) {
-      if(value!=""){
-         data[key]=value;
+      if (value !== "") {
+        data[key] = value;
       }
     }
-    console.log(data);
   }
 
   useEffect(() => {
-    const fetchClient = axios.get("http://localhost:5000/GFOERP/Client");
-    const fetchVendors = axios.get(
-      "http://localhost:5000/GFOERP/ProductsVendors"
-    );
-
-    // Use Promise.all to wait for both requests to complete
-    Promise.all([fetchClient, fetchVendors])
-      .then(([clientResponse, vendorsResponse]) => {
-        setClient(clientResponse.data.data);
-        setVendors(vendorsResponse.data.data);
-        setLoading(false);
+    axios
+      .get("http://localhost:5000/GFOERP/ProductsVendors")
+      .then((response) => {
+        if (response.data.success) {
+          setVendors(response.data.data);
+          setLoading(false);
+        } else {
+          toast.error("Can't Fetch Vendor Name");
+          setLoading(false);
+        }
       })
       .catch((err) => {
+        toast.error("Server Problem");
         console.log(err);
+        setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    if (selectedVendor) {
+      setClients(null);
+      getClients(selectedVendor);
+    }
+  }, [selectedVendor]);
+
+  function getClients(vendor) {
+    setClientLoading(true);
+    axios
+      .get(`http://localhost:5000/GFOERP/RouteClient/${vendor.name}`)
+      .then((response) => {
+        if (response.data.success) {
+          setClients(response.data.data);
+          setClientLoading(false);
+        } else {
+          toast.error("Unable to Load Clients, Try Again");
+        setClientLoading(false);
+        }
+      })
+      .catch((err) => {
+        toast.error("Server Problem");
+        console.log(err);
+        setClientLoading(false);
+      });
+  }
 
   if (loading) {
     return <LoadingForm />;
@@ -61,6 +85,7 @@ function SalesForm2() {
 
   return (
     <form className="gap-6 flex flex-col w-100" onSubmit={handleSubmit}>
+      <ToastContainer />
       <div className="w-full lg:w-1/2 space-y-4 self-start">
         {/* For Vendor Name */}
         <h1 className="text-3xl text-left text-orange-600 font-bold capitalize">
@@ -72,16 +97,33 @@ function SalesForm2() {
         />
       </div>
 
-      {selectedVendor ? (
-        <ProductContainer selectedVendor={selectedVendor} />
+      {/* For Client Name */}
+      {selectedVendor && clients && (
+        <div className="w-full lg:w-1/2 space-y-4 self-start">
+          <h1 className="text-3xl text-left text-orange-600 font-bold capitalize">
+            Select Client
+          </h1>
+          <InputFilterList
+            clients={clients}
+            setSelectedVendor={setSelectedClient}
+          />
+        </div>
+      )}
+
+      {clientLoading ? (
+        <p className="text-center animate-pulse">Loading Clients</p>
       ) : null}
 
-      <button
-        type="submit"
-        className="text-white font-bold bg-orange-600 px-12 py-2 rounded cursor-pointer hover:scale-95 transition w-full md:w-fit md:py-4"
-      >
-        Submit
-      </button>
+      {selectedClient && <ProductContainer selectedVendor={selectedVendor} />}
+
+      {selectedClient && (
+        <button
+          type="submit"
+          className="text-white font-bold bg-orange-600 px-12 py-2 rounded cursor-pointer hover:scale-95 transition w-full md:w-fit md:py-4"
+        >
+          Submit
+        </button>
+      )}
     </form>
   );
 }
