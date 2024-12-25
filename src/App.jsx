@@ -6,7 +6,7 @@ function App() {
   const [roles, setRoles] = useState(null);
   return (
     // div for screen background color
-    <div className="sm:container mx-auto w-full min-h-screen">
+    <div className="sm:container mx-auto w-full min-h-screen border-2 border-red-600">
       <ToastContainer/>
       {roles ? <HomePage roles={roles} /> : <LoginForm setRoles={setRoles} />}
     </div>
