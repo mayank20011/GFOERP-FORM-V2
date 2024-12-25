@@ -22,7 +22,7 @@ function LoginForm({setRoles}) {
     loager[`password`] = pass.current.value.trim();
 
     axios
-      .post("http://localhost:5000/GFOERP/UserLogin/",loager) 
+      .post("https://gfo-erp-backend-api.vercel.app/GFOERP/UserLogin/",loager) 
       .then((response) => {
         if (response.data.authorization) {
           setLoading(false);
