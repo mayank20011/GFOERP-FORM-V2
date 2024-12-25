@@ -1,7 +1,6 @@
 import React from "react";
 import PurchaseForm from "../../Purchase/PurchaseForm.jsx";
 import SalesForm2 from "../../Sale/SalesForm2.jsx";
-import SalesForm from "../../SalesForm.jsx";
 import Stock from "../../Stock/Stock.jsx";
 import Inventory from "../../Inventory/Inventory.jsx";
 import Labtesting from "../../labTesting/Labtesting.jsx";

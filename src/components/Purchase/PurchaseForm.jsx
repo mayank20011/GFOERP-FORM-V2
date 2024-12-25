@@ -8,9 +8,8 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 
 function PurchaseForm() {
- 
   // for form
-  const form=useRef(null);
+  const form = useRef(null);
 
   // for loading
   const [loading, setLoading] = useState(true);
@@ -36,9 +35,8 @@ function PurchaseForm() {
   // to get data from server
   useEffect(() => {
     axios
-      .get("http://localhost:5000/GFOERP/PurchaseVendors")
+      .get("https://gfo-erp-backend-api.vercel.app/GFOERP/PurchaseVendors")
       .then((response) => {
-        // console.log(response.data);
         setClients(response.data);
         setLoading(false);
       })
@@ -50,51 +48,61 @@ function PurchaseForm() {
       });
   }, []);
 
+  useEffect(() => {
+    setPassedOrFailed(null);
+  }, [selectedVendor]);
+
   function Whatsapp(message) {
     console.log(message);
-    form.current.reset();
+    setPassedOrFailed(null);
+    setSelectedVendor(null);
   }
 
-  function sendWhatsapp(dataToSend, success = false) {
+  function sendWhatsapp(dataToSend) {
+    
     let message = "";
-
     // if labtest passed
-    if(success){
+    if (dataToSend.passedOrFailed == "Passed") {
       message = `Hey ${selectedVendor.name} !, We are happy to say that your Product Passed our Labtest, amount of milk is ${dataToSend.amount} kg and the fat% in your product is ${dataToSend.fat}% and clr value is ${dataToSend.clr} which genearte a total amout of ${dataToSend.money} and your balnce amount is:`;
       Whatsapp(message);
     }
-
     // if labtest failed
-    else{
-      if (dataToSend.remark == "") {
-        toast.error("Enter Remark");
-      } 
-      else{
-        message = `Hey ${selectedVendor.name} !, We are sorry to inform that Your Product did not meet our passing Criteria, Reason for failing our test is: ${dataToSend.remark}`;
-        Whatsapp(message);
-      }
+    else {
+      message = `Hey ${selectedVendor.name} !, We are sorry to inform that Your Product did not meet our passing Criteria, Reason for failing our test is: ${dataToSend.remark}`;
+      Whatsapp(message);
     }
   }
 
+  function saveToDb(dataToSend) {
+    axios
+      .post("https://gfo-erp-backend-api.vercel.app/GFOERP/PurchaseData", dataToSend)
+      .then((response) => {
+        if (response.data.success) {
+          toast.success("Saved To Db Successfully");
+          sendWhatsapp(dataToSend);
+        } else {
+          toast.error("Issue While Saving Data in DataBase");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("No Such Vendor in Db");
+      });
+  }
+
   function sendToDb(dataToSend) {
-    if (dataToSend.money == 0) {
-      toast.error("Generate Money First");
+    if (dataToSend.passedOrFailed == "Passed") {
+      if (dataToSend.money == 0) {
+        toast.error("Generate Money First");
+      } else {
+        saveToDb(dataToSend);
+      }
     } else {
-      axios
-        .post("http://localhost:5000/GFOERP/PurchaseData",dataToSend)
-        .then((response) => {
-          if (response.data.success) {
-            toast.success("Saved To Db Successfully");
-            form.current.reset();
-            sendWhatsapp(dataToSend, true);
-          } else {
-            toast.error("Issue While Saving Data in DataBase");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          toast.error("Server issue");
-        });
+      if (dataToSend.remark == "") {
+        toast.error("Remark Can't be Empty");
+      } else {
+        saveToDb(dataToSend);
+      }
     }
   }
 
@@ -109,26 +117,27 @@ function PurchaseForm() {
         year: "",
         time: "",
       },
-      purchasingRates: {
-        fatRate: 0,
-        snfRate: 0,
-      },
     };
+
     for (const [key, value] of formData.entries()) {
       dataToSend[key] = value;
     }
+
     dataToSend.dateAndTime.date = now.getDate();
     dataToSend.dateAndTime.month = now.getMonth();
     dataToSend.dateAndTime.year = now.getFullYear();
     dataToSend.dateAndTime.time = `${now.getHours()}:${now.getMinutes()}`;
-    dataToSend.purchasingRates.fatRate = selectedVendor.fatRate;
-    dataToSend.purchasingRates.snfRate = selectedVendor.snfRate;
-    console.log(dataToSend);
-    if (passedorFailed === "Passed") {
-      sendToDb(dataToSend);
+    if (passedorFailed == "Passed") {
+      dataToSend["passedOrFailed"] = "Passed";
+      const PurchaseRates = {
+        fatRate: selectedVendor.fatRate,
+        snfRate: selectedVendor.snfRate,
+      };
+      dataToSend["PurchaseRates"] = PurchaseRates;
     } else {
-      sendWhatsapp(dataToSend, false);
+      dataToSend["passedOrFailed"] = "Failled";
     }
+    sendToDb(dataToSend);
   }
 
   if (loading) {

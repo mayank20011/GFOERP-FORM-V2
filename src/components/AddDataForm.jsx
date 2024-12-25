@@ -21,7 +21,7 @@ function AddDataForm() {
 
   function addClientToDb() {
     axios
-      .post(`${import.meta.env.VITE_DB_URL}/Client/`, {
+      .post(`https://gfo-erp-backend-api.vercel.app/Client/`, {
         clientName: clientName.current.value,
       })
       .then((response) => {
@@ -42,7 +42,7 @@ function AddDataForm() {
 
   function addProductInDb() {
     axios
-      .post(`${import.meta.env.VITE_DB_URL}/Products/`, {
+      .post(`https://gfo-erp-backend-api.vercel.app/Products/`, {
         productName: productName.current.value,
         quantity: productQuantity.current.value,
       })

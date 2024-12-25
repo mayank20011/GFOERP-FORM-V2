@@ -35,7 +35,7 @@ function SalesForm2() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/GFOERP/ProductsVendors")
+      .get("https://gfo-erp-backend-api.vercel.app/GFOERP/ProductsVendors")
       .then((response) => {
         if (response.data.success) {
           setVendors(response.data.data);
@@ -62,7 +62,7 @@ function SalesForm2() {
   function getClients(vendor) {
     setClientLoading(true);
     axios
-      .get(`http://localhost:5000/GFOERP/RouteClient/${vendor.name}`)
+      .get(`https://gfo-erp-backend-api.vercel.app/GFOERP/RouteClient/${vendor.name}`)
       .then((response) => {
         if (response.data.success) {
           setClients(response.data.data);
