@@ -13,7 +13,7 @@ function HomePage({ roles }) {
 
   return (
     // div to hold homepage
-    <div className="xxs:mx-4 mx-12 py-12 min-h-screen">
+    <div className="mx-12 py-12 min-h-screen xxs:mx-6 xxs:py-6">
       <Navbar roles={roles} setShowComponent={setShowComponent} />
       <Body showComponent={showComponent} />
     </div>

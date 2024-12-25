@@ -86,9 +86,9 @@ function SalesForm2() {
   return (
     <form className="gap-6 flex flex-col w-100" onSubmit={handleSubmit}>
       <ToastContainer />
-      <div className="w-full lg:w-1/2 space-y-4 self-start">
+      <div className="w-full lg:w-1/2 space-y-4 self-start xxs:space-y-0">
         {/* For Vendor Name */}
-        <h1 className="text-3xl text-left text-orange-600 font-bold capitalize">
+        <h1 className="text-3xl text-left text-orange-600 font-bold capitalize xxs:text-lg">
           Select Vendor
         </h1>
         <InputFilterList
@@ -100,7 +100,7 @@ function SalesForm2() {
       {/* For Client Name */}
       {selectedVendor && clients && (
         <div className="w-full lg:w-1/2 space-y-4 self-start">
-          <h1 className="text-3xl text-left text-orange-600 font-bold capitalize">
+          <h1 className="text-3xl text-left text-orange-600 font-bold capitalize xxs:text-lg">
             Select Client
           </h1>
           <InputFilterList
