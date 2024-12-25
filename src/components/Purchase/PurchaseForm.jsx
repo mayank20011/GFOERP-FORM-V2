@@ -141,7 +141,7 @@ function PurchaseForm() {
   }
 
   if (loading) {
-    return <p>Loading . . .</p>;
+    return <p className="text-center">Loading . . .</p>;
   }
 
   return (
