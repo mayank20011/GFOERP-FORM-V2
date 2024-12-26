@@ -97,6 +97,8 @@ function PurchaseMilk({ selectedVendor }) {
             onChange={calculateSnfValue}
             ref={fat}
             required
+            step="0.001"
+            onWheel={(e)=> e.target.blur()}
           />
           <span className="text-red-600" ref={err2}></span>
         </div>
@@ -114,6 +116,8 @@ function PurchaseMilk({ selectedVendor }) {
             onChange={calculateSnfValue}
             ref={clr}
             required
+            step="0.001"
+            onWheel={(e)=> e.target.blur()}
           />
           <span className="text-red-600" ref={err3}></span>
         </div>
@@ -170,6 +174,7 @@ function PurchaseMilk({ selectedVendor }) {
             >
               Calculate Amount
             </button>
+            
           </div>
         </div>
       </div>

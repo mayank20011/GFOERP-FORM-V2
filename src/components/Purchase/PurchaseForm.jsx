@@ -55,8 +55,8 @@ function PurchaseForm() {
 
   function Whatsapp(message) {
     console.log(message);
+    selectedVendor(null);
     setPassedOrFailed(null);
-    setSelectedVendor(null);
   }
 
   function sendWhatsapp(dataToSend) {
@@ -215,6 +215,10 @@ function PurchaseForm() {
             {passedorFailed === "Passed" ? (
               buttonLoading ? (
                 <p>
+                  {" "}
+                  <span>
+                    <i className="fa-solid fa-circle-notch animate-spin mr-2"></i>
+                  </span>
                   Loading <span className="animate-pulse">. . .</span>
                 </p>
               ) : (
@@ -222,7 +226,10 @@ function PurchaseForm() {
               )
             ) : buttonLoading ? (
               <p>
-                Loading <span className="animate-pulse">. . .</span>
+                <span>
+                  <i className="fa-solid fa-circle-notch animate-spin mr-2"></i>
+                </span>
+                   Loading <span className="animate-pulse">. . .</span>
               </p>
             ) : (
               "Send Remark To Customer"
