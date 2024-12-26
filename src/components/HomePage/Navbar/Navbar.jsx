@@ -45,7 +45,7 @@ function Navbar({ roles, setShowComponent }) {
         ))}
       </div>
 
-      <i className="fa-solid fa-burger text-4xl font-bold cursor-pointer xl:hidden" onClick={navIn}></i>
+      <i className="fa-solid fa-burger text-4xl font-bold cursor-pointer xl:hidden xxs:text-3xl" onClick={navIn}></i>
     </div>
   );
 }
