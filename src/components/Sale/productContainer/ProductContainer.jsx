@@ -16,6 +16,8 @@ function ProductContainer({ selectedVendor }) {
               placeholder="Enter Quantity ..."
               className="border-2 rounded-sm h-10 p-3 outline-none w-full cursor-pointer"
               name={`${product.productName}`}
+              onWheel={(e)=>{e.target.blur()}}
+              step="any"
             />
           </div>
         ))}

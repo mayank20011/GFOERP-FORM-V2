@@ -18,19 +18,77 @@ function SalesForm2() {
   const [vendors, setVendors] = useState(null);
   const [selectedVendor, setSelectedVendor] = useState(null);
 
-  // Ensures hook is always called
+  function sendToDB(data) {
+    if (data.vendorName == "") {
+      toast.error(`Enter VendorName`);
+    } else if (data.client == "") {
+      toast.error(`Select Client`);
+    } else if (data.productsSold.length == 0) {
+      toast.error(`Enter Atleast 1 Product to sell`);
+    } else {
+      const now = new Date();
+      data.time.date = now.getDate();
+      data.time.month = now.getMonth() + 1;
+      data.time.year = now.getFullYear();
+      data.time.time = `${now.getHours()} : ${now.getMinutes()} : ${now.getSeconds()}`;
+
+      axios
+        .post("https://gfo-erp-backend-api.vercel.app/GFOERP/SalesData/", data)
+        .then((response) => {
+           if(response.data.success){
+                toast.success(`${response.data.message}`)
+                setSelectedClient(null);
+           }
+           else{
+            toast.error(`${response.data.message}`) 
+           }
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error(`Server Problem`);
+        });
+    }
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
+
     const data = {
       vendorName: "",
+      client: "",
+      productsSold: [],
+      time: {
+        date: "",
+        month: "",
+        year: "",
+        time: "",
+      },
     };
+
     const formData = new FormData(e.target);
+
+    let index = 0;
+
     for (const [key, value] of formData.entries()) {
-      if (value !== "") {
-        data[key] = value;
+      if (key == "vendorName" && index == 0) {
+        if (value !== "") {
+          data.vendorName = value;
+        }
+      } else if (key == "vendorName" && index == 1) {
+        if (value != "") {
+          data.client = value;
+        }
+      } else {
+        if (value != "") {
+          data.productsSold.push({
+            name: key,
+            quantity: value,
+          });
+        }
       }
+      index++;
     }
+    sendToDB(data);
   }
 
   useEffect(() => {
@@ -87,12 +145,12 @@ function SalesForm2() {
 
   return (
     <div className="">
-
       <ToastContainer />
 
       <form className="flex flex-col w-100 space-y-4" onSubmit={handleSubmit}>
-
-      <h1 className="text-green-600 text-4xl font-bold xxs:text-3xl">Sell !!!</h1>
+        <h1 className="text-green-600 text-4xl font-bold xxs:text-3xl">
+          Sell !!!
+        </h1>
 
         <div className="w-full lg:w-1/2 space-y-4 self-start xxs:space-y-0">
           {/* For Vendor Name */}
