@@ -55,7 +55,7 @@ function PurchaseForm() {
 
   function Whatsapp(message) {
     console.log(message);
-    selectedVendor(null);
+    setSelectedVendor(null);
     setPassedOrFailed(null);
   }
 
