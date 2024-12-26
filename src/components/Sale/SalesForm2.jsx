@@ -8,7 +8,7 @@ import ProductContainer from "./productContainer/ProductContainer";
 function SalesForm2() {
   // For Managing Loading
   const [loading, setLoading] = useState(true);
-
+  const [ buttonloading, setButtonLoading]= useState(false);
   // For Managing Clients
   const [clients, setClients] = useState(null);
   const [selectedClient, setSelectedClient] = useState(null);
@@ -31,7 +31,7 @@ function SalesForm2() {
       data.time.month = now.getMonth() + 1;
       data.time.year = now.getFullYear();
       data.time.time = `${now.getHours()} : ${now.getMinutes()} : ${now.getSeconds()}`;
-
+      setButtonLoading(true);
       axios
         .post("https://gfo-erp-backend-api.vercel.app/GFOERP/SalesData/", data)
         .then((response) => {
@@ -42,10 +42,12 @@ function SalesForm2() {
            else{
             toast.error(`${response.data.message}`) 
            }
+           setButtonLoading(false);
         })
         .catch((err) => {
           console.log(err);
           toast.error(`Server Problem`);
+          setButtonLoading(false);
         });
     }
   }
@@ -187,7 +189,7 @@ function SalesForm2() {
             type="submit"
             className="text-white font-bold bg-orange-600 px-12 py-2 rounded cursor-pointer hover:scale-95 transition w-full md:w-fit md:py-4"
           >
-            Submit
+            { buttonloading ? <i className="fa-solid fa-circle-notch animate-spin"></i>:"Submit"}
           </button>
         )}
       </form>
