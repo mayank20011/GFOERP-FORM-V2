@@ -13,6 +13,7 @@ function PurchaseForm() {
 
   // for loading
   const [loading, setLoading] = useState(true);
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   // to check if the batch passed the test or not?
   const [passedorFailed, setPassedOrFailed] = useState(null);
@@ -73,6 +74,7 @@ function PurchaseForm() {
   }
 
   function saveToDb(dataToSend) {
+    setButtonLoading(true);
     axios
       .post(
         "https://gfo-erp-backend-api.vercel.app/GFOERP/PurchaseData",
@@ -82,13 +84,16 @@ function PurchaseForm() {
         if (response.data.success) {
           toast.success("Saved To Db Successfully");
           sendWhatsapp(dataToSend);
+          setButtonLoading(false);
         } else {
           toast.error("Issue While Saving Data in DataBase");
+          setButtonLoading(false);
         }
       })
       .catch((err) => {
         console.log(err);
         toast.error("No Such Vendor in Db");
+        setButtonLoading(false);
       });
   }
 
@@ -207,9 +212,21 @@ function PurchaseForm() {
             className="text-white font-bold text-xl w-full text-cener bg-green-600 py-2 rounded-lg hover:scale-95 transition md:w-fit md:px-8 md:text-md shadow-2xl shadow-black"
             type="submit"
           >
-            {passedorFailed === "Passed"
-              ? "Add To Stock"
-              : "Send Remark To Customer"}
+            {passedorFailed === "Passed" ? (
+              buttonLoading ? (
+                <p>
+                  Loading <span className="animate-pulse">. . .</span>
+                </p>
+              ) : (
+                "Add To Stock"
+              )
+            ) : buttonLoading ? (
+              <p>
+                Loading <span className="animate-pulse">. . .</span>
+              </p>
+            ) : (
+              "Send Remark To Customer"
+            )}
           </button>
         ) : null}
       </form>
