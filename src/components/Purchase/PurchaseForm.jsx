@@ -161,6 +161,7 @@ function PurchaseForm() {
         onSubmit={handleSubmit}
         ref={form}
       >
+        <h1 className="text-red-600 text-4xl font-bold xxs:text-3xl">Purchase !!!</h1>
         <div>
           <h1 className="text-3xl text-left text-green-600 font-bold capitalize xxs:text-lg">
             Select Vendor

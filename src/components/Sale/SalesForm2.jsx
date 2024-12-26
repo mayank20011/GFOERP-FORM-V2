@@ -89,8 +89,11 @@ function SalesForm2() {
     <div className="">
 
       <ToastContainer />
-      
+
       <form className="flex flex-col w-100 space-y-4" onSubmit={handleSubmit}>
+
+      <h1 className="text-red-600 text-4xl font-bold xxs:text-3xl">Sell !!!</h1>
+
         <div className="w-full lg:w-1/2 space-y-4 self-start xxs:space-y-0">
           {/* For Vendor Name */}
           <h1 className="text-3xl text-left text-orange-600 font-bold capitalize xxs:text-lg">
