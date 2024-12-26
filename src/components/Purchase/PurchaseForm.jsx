@@ -172,32 +172,34 @@ function PurchaseForm() {
           />
         </div>
 
-        <div>
-          <h1 className="text-3xl text-left text-green-600 font-bold xxs:text-xl">
-            Did Batch Passed the Lab Test ?
-          </h1>
+        {selectedVendor ? (
+          <div>
+            <h1 className="text-3xl text-left text-green-600 font-bold xxs:text-xl">
+              Did Batch Passed the Lab Test ?
+            </h1>
 
-          <div className="flex gap-4 xxs:gap-2 mt-2">
-            <button
-              className="px-6 py-2 text-white text-bold bg-green-600 rounded-md hover:scale-75 transition shadow-lg hover:shadow-green-600"
-              type="button"
-              onClick={() => {
-                setPassedOrFailed("Passed");
-              }}
-            >
-              Yes
-            </button>
-            <button
-              className="px-6 py-2 text-white text-bold bg-red-600 rounded-md hover:scale-75 transition shadow-lg hover:shadow-red-600"
-              type="button"
-              onClick={() => {
-                setPassedOrFailed("Failed");
-              }}
-            >
-              No
-            </button>
+            <div className="flex gap-4 xxs:gap-2 mt-2">
+              <button
+                className="px-6 py-2 text-white text-bold bg-green-600 rounded-md hover:scale-75 transition shadow-lg hover:shadow-green-600"
+                type="button"
+                onClick={() => {
+                  setPassedOrFailed("Passed");
+                }}
+              >
+                Yes
+              </button>
+              <button
+                className="px-6 py-2 text-white text-bold bg-red-600 rounded-md hover:scale-75 transition shadow-lg hover:shadow-red-600"
+                type="button"
+                onClick={() => {
+                  setPassedOrFailed("Failed");
+                }}
+              >
+                No
+              </button>
+            </div>
           </div>
-        </div>
+        ) : null}
 
         {passedorFailed == "Failed" ? (
           <Remark selectedVendor={selectedVendor} />
@@ -229,7 +231,7 @@ function PurchaseForm() {
                 <span>
                   <i className="fa-solid fa-circle-notch animate-spin mr-2"></i>
                 </span>
-                   Loading <span className="animate-pulse">. . .</span>
+                Loading <span className="animate-pulse">. . .</span>
               </p>
             ) : (
               "Send Remark To Customer"
