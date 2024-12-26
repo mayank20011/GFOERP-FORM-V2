@@ -59,7 +59,6 @@ function PurchaseForm() {
   }
 
   function sendWhatsapp(dataToSend) {
-    
     let message = "";
     // if labtest passed
     if (dataToSend.passedOrFailed == "Passed") {
@@ -75,7 +74,10 @@ function PurchaseForm() {
 
   function saveToDb(dataToSend) {
     axios
-      .post("https://gfo-erp-backend-api.vercel.app/GFOERP/PurchaseData", dataToSend)
+      .post(
+        "https://gfo-erp-backend-api.vercel.app/GFOERP/PurchaseData",
+        dataToSend
+      )
       .then((response) => {
         if (response.data.success) {
           toast.success("Saved To Db Successfully");
@@ -146,46 +148,50 @@ function PurchaseForm() {
 
   return (
     // to hold form and image
-    <div className="flex w-full gap-4 items-center justify-between">
+    <div className="flex w-full items-center justify-between">
       <ToastContainer />
       {/* pass Fail container */}
       <form
-        className="w-full lg:w-1/2 space-y-4 self-start"
+        className="w-full lg:w-1/2 space-y-4 self-start xxs:space-y-3"
         onSubmit={handleSubmit}
         ref={form}
       >
-        <h1 className="text-3xl text-left text-green-600 font-bold capitalize">
-          Select Vendor
-        </h1>
+        <div>
+          <h1 className="text-3xl text-left text-green-600 font-bold capitalize xxs:text-lg">
+            Select Vendor
+          </h1>
 
-        <InputFilterList
-          clients={clients}
-          setSelectedVendor={setSelectedVendor}
-        />
+          <InputFilterList
+            clients={clients}
+            setSelectedVendor={setSelectedVendor}
+          />
+        </div>
 
-        <h1 className="text-3xl text-left text-green-600 font-bold">
-          Did Batch Passed the Lab Test ?
-        </h1>
+        <div>
+          <h1 className="text-3xl text-left text-green-600 font-bold xxs:text-xl">
+            Did Batch Passed the Lab Test ?
+          </h1>
 
-        <div className="flex gap-4">
-          <button
-            className="px-6 py-2 text-white text-bold bg-green-600 rounded-md hover:scale-95 transition "
-            type="button"
-            onClick={() => {
-              setPassedOrFailed("Passed");
-            }}
-          >
-            Yes
-          </button>
-          <button
-            className="px-6 py-2 text-white text-bold bg-red-600 rounded-md hover:scale-95 transition"
-            type="button"
-            onClick={() => {
-              setPassedOrFailed("Failed");
-            }}
-          >
-            No
-          </button>
+          <div className="flex gap-4 xxs:gap-2">
+            <button
+              className="px-6 py-2 text-white text-bold bg-green-600 rounded-md hover:scale-75 transition shadow-lg hover:shadow-green-600"
+              type="button"
+              onClick={() => {
+                setPassedOrFailed("Passed");
+              }}
+            >
+              Yes
+            </button>
+            <button
+              className="px-6 py-2 text-white text-bold bg-red-600 rounded-md hover:scale-75 transition shadow-lg hover:shadow-red-600"
+              type="button"
+              onClick={() => {
+                setPassedOrFailed("Failed");
+              }}
+            >
+              No
+            </button>
+          </div>
         </div>
 
         {passedorFailed == "Failed" ? (

@@ -63,7 +63,7 @@ function PurchaseMilk({ selectedVendor }) {
   return (
     <div className="space-y-4">
       {/* heading */}
-      <h1 className="text-2xl text-green-600 font-bold">Lets Purchase</h1>
+      <h1 className="text-2xl text-green-600 font-bold xxs:text-xlg">Lets Purchase</h1>
 
       {/* for purchasing */}
       <div className="space-y-4">
