@@ -14,7 +14,10 @@ function Navbar({ roles, setShowComponent }) {
 
   function navButtonClicked(e) {
     if(e.target.id!="dashBoard"){
-   setShowComponent(e.target.id)};
+   setShowComponent(e.target.id)}
+   else{
+    window.location.href='https://gfoerp-dashboard.vercel.app/';
+   }
   }
 
   function navDivClick()
