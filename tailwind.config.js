@@ -9,7 +9,7 @@ export default {
       screens:{
         '3xs':'1090',
         'xs':'760',
-        'xxs': {'max':'475px'}
+        'xxs': {'max':'500px'}
       },
       backgroundImage:{
         'custom-image':"url('./src/img/grass.jpg')"

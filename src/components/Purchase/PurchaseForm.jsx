@@ -172,7 +172,7 @@ function PurchaseForm() {
             Did Batch Passed the Lab Test ?
           </h1>
 
-          <div className="flex gap-4 xxs:gap-2">
+          <div className="flex gap-4 xxs:gap-2 mt-2">
             <button
               className="px-6 py-2 text-white text-bold bg-green-600 rounded-md hover:scale-75 transition shadow-lg hover:shadow-green-600"
               type="button"

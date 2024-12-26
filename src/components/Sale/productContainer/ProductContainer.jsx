@@ -3,9 +3,9 @@ import React from "react";
 function ProductContainer({ selectedVendor }) {
   
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-orange-600 xxs:text-xl">Select Quantity</h1>
-      <div className="grid grid-cols-1 gap-6 w-full sm:grid-cols-2">
+    <div className="space-y-6 xxs:space-y-4">
+      <h1 className="text-3xl font-bold text-orange-600 xxs:text-lg">Select Quantity</h1>
+      <div className="grid grid-cols-1 gap-6 w-full sm:grid-cols-2 xxs:gap-4">
         {selectedVendor.products.map((product, index) => (
           <div key={product.productName}>
             <label htmlFor={`${product.productName}`} className="text-blue-600">

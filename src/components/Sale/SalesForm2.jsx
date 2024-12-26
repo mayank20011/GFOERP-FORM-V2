@@ -62,14 +62,16 @@ function SalesForm2() {
   function getClients(vendor) {
     setClientLoading(true);
     axios
-      .get(`https://gfo-erp-backend-api.vercel.app/GFOERP/RouteClient/${vendor.name}`)
+      .get(
+        `https://gfo-erp-backend-api.vercel.app/GFOERP/RouteClient/${vendor.name}`
+      )
       .then((response) => {
         if (response.data.success) {
           setClients(response.data.data);
           setClientLoading(false);
         } else {
           toast.error("Unable to Load Clients, Try Again");
-        setClientLoading(false);
+          setClientLoading(false);
         }
       })
       .catch((err) => {
@@ -84,47 +86,51 @@ function SalesForm2() {
   }
 
   return (
-    <form className="gap-6 flex flex-col w-100" onSubmit={handleSubmit}>
-      <ToastContainer />
-      <div className="w-full lg:w-1/2 space-y-4 self-start xxs:space-y-0">
-        {/* For Vendor Name */}
-        <h1 className="text-3xl text-left text-orange-600 font-bold capitalize xxs:text-lg">
-          Select Vendor
-        </h1>
-        <InputFilterList
-          clients={vendors}
-          setSelectedVendor={setSelectedVendor}
-        />
-      </div>
+    <div className="">
 
-      {/* For Client Name */}
-      {selectedVendor && clients && (
-        <div className="w-full lg:w-1/2 space-y-4 self-start">
+      <ToastContainer />
+      
+      <form className="flex flex-col w-100 space-y-4" onSubmit={handleSubmit}>
+        <div className="w-full lg:w-1/2 space-y-4 self-start xxs:space-y-0">
+          {/* For Vendor Name */}
           <h1 className="text-3xl text-left text-orange-600 font-bold capitalize xxs:text-lg">
-            Select Client
+            Select Vendor
           </h1>
           <InputFilterList
-            clients={clients}
-            setSelectedVendor={setSelectedClient}
+            clients={vendors}
+            setSelectedVendor={setSelectedVendor}
           />
         </div>
-      )}
 
-      {clientLoading ? (
-        <p className="text-center animate-pulse">Loading Clients</p>
-      ) : null}
+        {/* For Client Name */}
+        {selectedVendor && clients && (
+          <div className="w-full lg:w-1/2 space-y-4 self-start xxs:space-y-0">
+            <h1 className="text-3xl text-left text-orange-600 font-bold capitalize xxs:text-lg">
+              Select Client
+            </h1>
+            <InputFilterList
+              clients={clients}
+              setSelectedVendor={setSelectedClient}
+            />
+          </div>
+        )}
 
-      {selectedClient && <ProductContainer selectedVendor={selectedVendor} />}
+        {clientLoading ? (
+          <p className="text-center animate-pulse">Loading Clients</p>
+        ) : null}
 
-      {selectedClient && (
-        <button
-          type="submit"
-          className="text-white font-bold bg-orange-600 px-12 py-2 rounded cursor-pointer hover:scale-95 transition w-full md:w-fit md:py-4"
-        >
-          Submit
-        </button>
-      )}
-    </form>
+        {selectedClient && <ProductContainer selectedVendor={selectedVendor} />}
+
+        {selectedClient && (
+          <button
+            type="submit"
+            className="text-white font-bold bg-orange-600 px-12 py-2 rounded cursor-pointer hover:scale-95 transition w-full md:w-fit md:py-4"
+          >
+            Submit
+          </button>
+        )}
+      </form>
+    </div>
   );
 }
 
