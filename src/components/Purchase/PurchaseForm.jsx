@@ -136,11 +136,11 @@ function PurchaseForm() {
     dataToSend.dateAndTime.time = `${now.getHours()}:${now.getMinutes()}`;
     if (passedorFailed == "Passed") {
       dataToSend["passedOrFailed"] = "Passed";
-      const PurchaseRates = {
+      const PurchasingRates = {
         fatRate: selectedVendor.fatRate,
         snfRate: selectedVendor.snfRate,
       };
-      dataToSend["PurchaseRates"] = PurchaseRates;
+      dataToSend["PurchasingRates"] = PurchasingRates;
     } else {
       dataToSend["passedOrFailed"] = "Failled";
     }
