@@ -33,6 +33,10 @@ function PurchaseForm() {
   // for selection of vendor and sharing its data to multiple components
   const [selectedVendor, setSelectedVendor] = useState(null);
 
+  const [isMessageSent, setIsMessageSent] = useState(false);
+
+  console.log(selectedVendor);
+
   // to get data from server
   useEffect(() => {
     axios
@@ -54,7 +58,13 @@ function PurchaseForm() {
   }, [selectedVendor]);
 
   function Whatsapp(message) {
+    console.log(selectedVendor.phoneNumber);
     console.log(message);
+    const url = `https://api.whatsapp.com/send?phone=${
+      selectedVendor.phoneNumber[0]
+    }&text=${encodeURIComponent(message)}`;
+    // window.open(url, "_blank");
+    setIsMessageSent(true);
     setSelectedVendor(null);
     setPassedOrFailed(null);
   }
@@ -75,9 +85,10 @@ function PurchaseForm() {
 
   function saveToDb(dataToSend) {
     setButtonLoading(true);
+    console.log(dataToSend);
     axios
       .post(
-        "https://gfo-erp-backend-api.vercel.app/GFOERP/PurchaseData",
+        "http://localhost:5000/GFOERP/PurchaseData",
         dataToSend
       )
       .then((response) => {
@@ -124,6 +135,7 @@ function PurchaseForm() {
         year: "",
         time: "",
       },
+      id:selectedVendor._id,
     };
 
     for (const [key, value] of formData.entries()) {
@@ -131,7 +143,7 @@ function PurchaseForm() {
     }
 
     dataToSend.dateAndTime.date = now.getDate();
-    dataToSend.dateAndTime.month = now.getMonth();
+    dataToSend.dateAndTime.month = now.getMonth()+1;
     dataToSend.dateAndTime.year = now.getFullYear();
     dataToSend.dateAndTime.time = `${now.getHours()}:${now.getMinutes()}`;
     if (passedorFailed == "Passed") {
@@ -161,7 +173,9 @@ function PurchaseForm() {
         onSubmit={handleSubmit}
         ref={form}
       >
-        <h1 className="text-red-600 text-4xl font-bold xxs:text-3xl">Purchase !!!</h1>
+        <h1 className="text-red-600 text-4xl font-bold xxs:text-3xl">
+          Purchase !!!
+        </h1>
         <div>
           <h1 className="text-3xl text-left text-green-600 font-bold capitalize xxs:text-lg">
             Select Vendor
