@@ -35,7 +35,6 @@ function PurchaseForm() {
 
   const [isMessageSent, setIsMessageSent] = useState(false);
 
-  console.log(selectedVendor);
 
   // to get data from server
   useEffect(() => {
@@ -136,6 +135,7 @@ function PurchaseForm() {
         time: "",
       },
       id:selectedVendor._id,
+      balanceAmount:selectedVendor.balanceAmount,
     };
 
     for (const [key, value] of formData.entries()) {
