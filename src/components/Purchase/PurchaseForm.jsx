@@ -35,7 +35,7 @@ function PurchaseForm() {
 
   const [isMessageSent, setIsMessageSent] = useState(false);
 
-
+  console.log(selectedVendor);
   // to get data from server
   useEffect(() => {
     axios
@@ -72,7 +72,17 @@ function PurchaseForm() {
     let message = "";
     // if labtest passed
     if (dataToSend.passedOrFailed == "Passed") {
-      message = `Hey ${selectedVendor.name} !, We are happy to say that your Product Passed our Labtest, amount of milk is ${dataToSend.amount} kg and the fat% in your product is ${dataToSend.fat}% and clr value is ${dataToSend.clr} which genearte a total amout of ${dataToSend.money} and your balnce amount is:`;
+      message = `Hey ${
+        selectedVendor.name
+      } !, We are happy to say that your Product Passed our Labtest, amount of milk is ${
+        dataToSend.amount
+      } kg and the fat% in your product is ${
+        dataToSend.fat
+      }% and clr value is ${dataToSend.clr} which genearte a total amout of ${
+        dataToSend.money
+      } and your balnce amount is: ${dataToSend.money} + ${
+        selectedVendor.balanceAmount
+      } = ${parseFloat(dataToSend.money) + parseFloat(selectedVendor.balanceAmount)}`;
       Whatsapp(message);
     }
     // if labtest failed
@@ -134,8 +144,8 @@ function PurchaseForm() {
         year: "",
         time: "",
       },
-      id:selectedVendor._id,
-      balanceAmount:selectedVendor.balanceAmount,
+      id: selectedVendor._id,
+      balanceAmount: parseInt(selectedVendor.balanceAmount),
     };
 
     for (const [key, value] of formData.entries()) {
@@ -143,7 +153,7 @@ function PurchaseForm() {
     }
 
     dataToSend.dateAndTime.date = now.getDate();
-    dataToSend.dateAndTime.month = now.getMonth()+1;
+    dataToSend.dateAndTime.month = now.getMonth() + 1;
     dataToSend.dateAndTime.year = now.getFullYear();
     dataToSend.dateAndTime.time = `${now.getHours()}:${now.getMinutes()}`;
     if (passedorFailed == "Passed") {
