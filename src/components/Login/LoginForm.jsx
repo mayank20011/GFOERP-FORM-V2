@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function LoginForm({setRoles}) {
+function LoginForm({ setRoles }) {
   // for password field
   const pass = useRef(null);
 
@@ -22,12 +22,19 @@ function LoginForm({setRoles}) {
     loager[`password`] = pass.current.value.trim();
 
     axios
-      .post("https://gfo-erp-backend-api.vercel.app/GFOERP/UserLogin/",loager) 
+      .post("https://gfo-erp-backend-api.vercel.app/GFOERP/UserLogin/", loager)
       .then((response) => {
         if (response.data.authorization) {
           setLoading(false);
-          toast.success("Permission Granted");
           setRoles(response.data.roles);
+          sessionStorage.setItem(
+            "login",
+            JSON.stringify({
+              handler: `${loager.name}`,
+              roles: response.data.roles,
+            })
+          );
+          console.log(response.data.roles);
         } else {
           setLoading(false);
           toast.warning("User Validation Failed");

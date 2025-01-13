@@ -8,7 +8,8 @@ function HomePage({ roles }) {
   const [showComponent, setShowComponent] = useState(null);
 
   useEffect(()=>{
-    setShowComponent(roles[0]);  
+    // setShowComponent(roles[0]);  
+    setShowComponent(JSON.parse(sessionStorage.getItem("login")).roles[0]); 
   },[]);
 
   return (
