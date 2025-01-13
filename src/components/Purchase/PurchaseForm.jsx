@@ -87,7 +87,7 @@ function PurchaseForm() {
     console.log(dataToSend);
     axios
       .post(
-        "http://localhost:5000/GFOERP/PurchaseData",
+        "https://gfo-erp-backend-api.vercel.app/GFOERP/PurchaseData",
         dataToSend
       )
       .then((response) => {
