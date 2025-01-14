@@ -34,7 +34,6 @@ function LoginForm({ setRoles }) {
               roles: response.data.roles,
             })
           );
-          console.log(response.data.roles);
         } else {
           setLoading(false);
           toast.warning("User Validation Failed");

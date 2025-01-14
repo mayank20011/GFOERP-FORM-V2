@@ -35,7 +35,6 @@ function PurchaseForm() {
 
   const [isMessageSent, setIsMessageSent] = useState(false);
 
-  console.log(selectedVendor);
   // to get data from server
   useEffect(() => {
     axios
@@ -62,7 +61,7 @@ function PurchaseForm() {
     const url = `https://api.whatsapp.com/send?phone=${
       selectedVendor.phoneNumber[0]
     }&text=${encodeURIComponent(message)}`;
-    // window.open(url, "_blank");
+    window.open(url, "_blank");
     setIsMessageSent(true);
     setSelectedVendor(null);
     setPassedOrFailed(null);

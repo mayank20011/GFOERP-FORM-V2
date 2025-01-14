@@ -32,6 +32,7 @@ function SalesForm2() {
       data.time.year = now.getFullYear();
       data.time.time = `${now.getHours()} : ${now.getMinutes()} : ${now.getSeconds()}`;
       setButtonLoading(true);
+      console.log(data);
       axios
         .post("https://gfo-erp-backend-api.vercel.app/GFOERP/SalesData/", data)
         .then((response) => {
