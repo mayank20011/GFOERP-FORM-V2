@@ -279,7 +279,7 @@ function PagePdf({ pdfData, setClients, setShowBill }) {
   console.log(pdfData);
   
   function resetAll() {
-    setClients(null);
+    // setClients(null);
     setShowBill(false);
   }
 
